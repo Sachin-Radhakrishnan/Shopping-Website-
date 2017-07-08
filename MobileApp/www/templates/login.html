@@ -1,0 +1,47 @@
+<ion-view view-title="Login">
+  <ion-content>
+                <div class="card" >
+
+                <div class="item item-divider" style="background-color: #4256f4;padding:17px">
+                <h3 style="color:white" ><b>Login</b></h3>
+                </div>
+
+                <form  class="form-horizontal" name="Form.LoginForm" role="form" ng-submit='OnSubmission()' novalidate>
+
+                        <ion-item>
+                         <div class="item-icon-left">
+                             <i class="icon ion-person"></i>
+                             <input type="text" name="username" ng-model="login.username" placeholder="Enter a username " ng-pattern="/(?=^.{6,10}$)^[a-zA-Z][a-zA-Z0-9]*[._-]?[a-zA-Z0-9]+$/" maxlength="10" required>
+                             <!--validation part-->
+                             <h5 style="color:red" ng-show="Form.LoginForm.username.$error.required && !Form.LoginForm.username.$pristine">* Required Field</h5>
+                             <h5 style="color:red" ng-show="!Form.LoginForm.username.$error.required && Form.LoginForm.username.$error.pattern && !Form.LoginForm.username.$pristine">** Invalid Format</h5>
+                         </div>
+                        </ion-item>
+
+                        <ion-item>
+                        <div class="item-icon-left">
+                              <i class="icon ion-locked"></i>
+                             <div ng-class="{ 'has-error' : LoginForm.password.$invalid
+                             && !LoginForm.password.$pristine }">
+                             <input name="password" type="password" ng-model="login.password" placeholder="Enter password"  ng-pattern="/^(?=.*[A-Z])(?=.*[0-9])(?=.*[@!*^#])(?=.*[a-z])\S{8,}$/"
+                             required maxlength="20" />
+                              <!--validation part-->
+                             <h5 style="color:red"  ng-show="Form.LoginForm.password.$error.required && !Form.LoginForm.password.$pristine">* Required Field </h5>
+                             <h5 style="color:red;" ng-show="Form.LoginForm.password.$error.pattern">
+                               ** Invalid Format </h5>
+                           </div>
+                        </div>
+                        </ion-item>
+
+
+                        <ion-item>
+                        <div class="text-center" >
+                            <input  class="button button-block  button-calm" style="background-color:#4157fc" ng-disabled="Form.LoginForm.$invalid" type="submit" value="Login">
+                        </div>
+                        </ion-item>
+
+              </form>
+
+
+  </ion-content>
+</ion-view>

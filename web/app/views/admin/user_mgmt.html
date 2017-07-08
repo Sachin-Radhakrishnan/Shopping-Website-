@@ -1,0 +1,39 @@
+
+<h3 style="color:#680201">Product Management</h3>
+<br><br>
+<div class="panel-body">
+
+<div class="row">
+
+<div class="col-xs-4">
+<label for="search">Search:</label>
+<input ng-model="query" id="search" class="form-control" placeholder="Filter text">
+</div>
+
+<div class="col-xs-4">
+<label for="search">items per page:</label>
+<input type="number" min="1" max="100" class="form-control" ng-model="itemsperpage">
+</div>
+
+</div>
+<br>
+<table class="table table-striped table-bordered ">
+<tr> <th>Sl:No:</th> <th  style="padding-left:70px;padding-right:70px">Product&nbsp;name&nbsp;</th> <th style="padding-left:150px;padding-right:150px;">Description</th> <th>Quantity</th> <th>Price</th>
+<th>Edit</th> <th>Delete</th> <th>Select</th> </tr>
+<tr dir-paginate="x in product | filter:query | itemsPerPage: itemsperpage" >
+  <td>{{$index + 1}}</td>
+  <td>{{ x.product_name}}</td>
+  <td>{{ x.product_description }}</td>
+  <td>{{ x.quantity }}</td>
+  <td>{{ x.price }}</td>
+  <td><input type="button" class="btn btn-info" ng-click="edit(x.product_id)" value="Edit"></td>
+  <td><input type="button" class="btn btn-info" ng-click="delete(x.product_id)" value="Delete"></td>
+  <td><label class="checkbox-inline"><input type="checkbox" ng-model="x.selected"></label></td>
+</tr>
+<tr> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+<td><input type="button" class="btn btn-danger" ng-click="deleteall()" value="Delete"></td></tr>
+</table>
+
+<dir-pagination-controls></dir-pagination-controls>
+
+</div>
