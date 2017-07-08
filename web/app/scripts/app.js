@@ -8,7 +8,7 @@
  *
  * Main module of the application.
  */
- var MyApp = angular.module('WebApp', ['service','starter.controllers','ui.router','angularUtils.directives.dirPagination'])
+ var MyApp = angular.module('WebApp', ['service','starter.controllers','ui.router','angularUtils.directives.dirPagination','ui.bootstrap'])
 
 .config(function($stateProvider, $urlRouterProvider) {
 

@@ -241,33 +241,7 @@ router.post('/placeorder', function(req, res,next) {
                 }
          });
       });
-          /* var sql1="select quantity from product where product_id="+req.body.id+" ";
-           db.select(sql1,function(result){
-           var result1 = JSON.parse(result);
-           var quantity=result1[0].quantity;
-            if(quantity>0)
-             {
-                 var sql="select * from shoppingcart where user_id="+user[0].user_id+" and product_id="+req.body.id+" ";
-                 db.select(sql,function(result){
-                      if(result=='[]')
-                      {
-                        var sql2="insert into shoppingcart(user_id,product_id) values ("+user[0].user_id+","+req.body.id+")";
-                        db.insert(sql2);
-                        res.json("Item added to your cart");
-                      }
-                      else
-                      {
-                        res.json("Already added to cart");
-                      }
-                 }); //sql closing
-             }
 
-             else
-             {
-                 res.json("Sorry...Product run out off stock..");
-             }
-
-           });*/
     }
     else
     {
@@ -313,6 +287,35 @@ router.get('/displaycategory', function(req, res) {
   });
 });
 /**********************************************************************************************************************************/
+router.post('/editproduct', function(req, res) {
+var sql="update product set product_name='"+req.body.product_name+"',product_description='"+req.body.product_description+"',price="+req.body.price+",quantity="+req.body.quantity+" where product_id="+req.body.product_id+"";
+db.update(sql);
+res.end();
+});
+/**********************************************************************************************************************************/
+router.post('/deleteproduct', function(req, res) {
+console.log(req.body);
+var status=req.body.status;
+if(status=='single')
+  {
+      var sql="delete from product where product_id="+req.body.data+"";
+      db.delete(sql);
+      res.end();
+  }
+  else if(status=='bulk')
+  {
+      for(var i=0;i<req.body.data.length;i++)
+      {
+        var sql="delete from product where product_id="+req.body.data[i]+"";
+        db.delete(sql);
+      }
+      res.end();
+  }
+
+});
+/**********************************************************************************************************************************/
+
+
 
 
 

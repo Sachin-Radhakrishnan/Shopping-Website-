@@ -39,6 +39,7 @@
     "test": "karma start test/karma.conf.js"
   },
   "dependencies": {
+    "angular-ui-bootstrap": "^2.5.0",
     "angular-ui-router": "^1.0.3",
     "angular-utils-pagination": "^0.11.1"
   }
