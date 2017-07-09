@@ -255,7 +255,7 @@ router.post('/placeorder', function(req, res,next) {
 /*********************************************************************************************************************************/
 router.get('/displayproducts', function(req, res) {
 
-  var sql="select * from product where  status='active' order by product_id";
+  var sql="select * from product where  status='active' order by product_id desc";
   db.select(sql,function(result){
     if(result!='[]')
     {
@@ -314,7 +314,12 @@ if(status=='single')
 
 });
 /**********************************************************************************************************************************/
-
+router.post('/addproduct', function(req, res) {
+console.log(req.body);
+//var sql="insert into product set ? "+req.body;
+db.insert("insert into product set ? ",req.body);
+res.end();
+});
 
 
 

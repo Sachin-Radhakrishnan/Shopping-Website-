@@ -29,12 +29,14 @@ SendFactory.send()
 $rootScope.getproducts();
 
 $scope.editproduct = function (data) {
+
     $rootScope.heading="Edit Details";
     $rootScope.buttonname="Edit Details";
+    $rootScope.submitname="editdetails();";
     var uibModalInstance = $uibModal.open({
       backdrop: 'static',
       keyboard: false,
-      templateUrl: './views/admin/modal.html',
+      templateUrl: './views/admin/editproducts.html',
       controller: [
           '$scope', '$uibModalInstance',function($scope, $uibModalInstance) {
               $scope.pdt={product_id:data.product_id,product_name:data.product_name,product_description:data.product_description,price:data.price,quantity:data.quantity};
@@ -105,14 +107,24 @@ $scope.countChecked = function(){
 $scope.addproduct = function (data) {
     $rootScope.heading="Add a new product";
     $rootScope.buttonname="Add Details";
+    $rootScope.submitname="addproduct()";
     var uibModalInstance = $uibModal.open({
       backdrop: 'static',
       keyboard: false,
-      templateUrl: './views/admin/modal.html',
+      templateUrl: './views/admin/addproducts.html',
       controller: [
           '$scope', '$uibModalInstance',function($scope, $uibModalInstance) {
               $scope.pdt={};
-
+              $scope.addproductdetails = function() {
+              SendFactory.seturl('products/addproduct','POST',$scope.pdt);
+              SendFactory.send()
+              .then(function success(response){
+                    $rootScope.getproducts();
+                    $uibModalInstance.close(false);
+                },function failure(response){
+                    console.log("failuressss");
+                });
+            };
               $scope.close = function() {
                   $uibModalInstance.close(false);
               };
@@ -120,6 +132,8 @@ $scope.addproduct = function (data) {
       ]
     });
  };
+/**************************************************************************************************************************/
+
 
 /*
 $scope.deleteall=function()

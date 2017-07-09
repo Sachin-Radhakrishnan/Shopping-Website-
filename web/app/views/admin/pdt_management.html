@@ -53,20 +53,13 @@
   </script>
   </td>
   <td><label class="checkbox-inline"><input type="checkbox" ng-model="x.selected"></label></td>
+  <td>
+  <button ng-disabled="" class="btn btn-info" data-id='bulk' id="btn" data-toggle="confirmation">Delete</button>
+  </td>
 </tr>
 <tr style="border-style:hidden" > <td style="border: none;"> </td> <td style="border: none;"></td> <td style="border: none;"></td> <td style="border: none;"></td> <td style="border: none;"></td> <td style="border: none;"></td> <td style="border: none;"></td>
 <td style="border: none;">
 <button ng-disabled="countChecked() == 0" class="btn btn-info" data-id='bulk' id="btn" data-toggle="confirmation">Delete</button>
-  <script>
-   $('#btn').confirmation({
-      //rootSelector:'#btn' ,
-      // other options
-      onConfirm: function() {
-        console.log("hii");
-        angular.element(document.getElementById('btn')).scope().deleteproduct('','bulk');
-      }
-   });
-  </script>
 </td></tr>
 </table>
 
