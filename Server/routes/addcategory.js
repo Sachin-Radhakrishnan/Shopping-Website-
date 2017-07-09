@@ -78,7 +78,7 @@ router.get('/', function(req, res) {
 /************************************************* category management ********************************************************************************/
 router.get('/displaycategory', function(req, res) {
 
-  var sql="select * from category  order by category_id desc";
+  var sql="select * from category order by category_id desc";
   db.select(sql,function(result){
     if(result!='[]')
     {
@@ -176,6 +176,13 @@ router.post('/addcategory', function(req, res) {
 console.log(req.body);
 //var sql="insert into category set ? "+req.body;
 db.insert("insert into category set ? ",req.body);
+res.end();
+});
+/*****************************************************************************************************/
+router.post('/addsubcategory', function(req, res) {
+console.log(req.body);
+//var sql="insert into category set ? "+req.body;
+db.insert("insert into subcategory set ? ",req.body);
 res.end();
 });
 /*****************************************************************************************************/

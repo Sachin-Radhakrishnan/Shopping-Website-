@@ -235,14 +235,20 @@ console.log(modelNames)
 
       $scope.editcategory = function (data) {
 
+            console.log(data);
             $rootScope.subdata={category_id:data.category_id};
             console.log("hiii");
-            //console.log($rootScope.subdata);
+            console.log($rootScope.subdata);
             //////////////////
             SendFactory.seturl('category/displayParticularsubcategory','POST',$rootScope.subdata);
             SendFactory.send()
             .then(function success(response){
+               if(response.data!="error")
                 $rootScope.subcategory=response.data;
+                else
+                {
+                  $rootScope.subcategory=[];
+                }
                 console.log($rootScope.subcategory);
               },function failure(response){
                   console.log("failuressss");
@@ -291,8 +297,12 @@ console.log(modelNames)
                                    SendFactory.seturl('category/displayParticularsubcategory','POST',$scope.subdata3);
                                    SendFactory.send()
                                    .then(function success(response){
-                                       $rootScope.subcategory=response.data;
-                                       console.log($rootScope.subcategory);
+                                       if(response.data!="error")
+                                        $rootScope.subcategory=response.data;
+                                        else
+                                        {
+                                          $rootScope.subcategory=[];
+                                        }
                                      },function failure(response){
                                          console.log("failuressss");
                                      });
@@ -307,15 +317,21 @@ console.log(modelNames)
                             $scope.deletesubcategory=function(data)
                             {
                               $scope.deletid={id:data};
+                              console.log("heyyyyyyyyyyyy");
+                              console.log($rootScope.subdata);
                               SendFactory.seturl('category/deletesubcategory','POST',$scope.deletid);
                               SendFactory.send()
                               .then(function success(response){
 
-                                SendFactory.seturl('category/displayParticularsubcategory','POST',$scope.subdata);
+                                SendFactory.seturl('category/displayParticularsubcategory','POST',$rootScope.subdata);
                                 SendFactory.send()
                                 .then(function success(response){
-                                    $rootScope.subcategory=response.data;
-                                    console.log($rootScope.subcategory);
+                                      if(response.data!="error")
+                                       $rootScope.subcategory=response.data;
+                                       else
+                                       {
+                                         $rootScope.subcategory=[];
+                                       }
                                   },function failure(response){
                                       console.log("failuressss");
                                   });
@@ -337,8 +353,12 @@ console.log(modelNames)
                                 SendFactory.seturl('category/displayParticularsubcategory','POST',$rootScope.subdata);
                                 SendFactory.send()
                                 .then(function success(response){
-                                    $rootScope.subcategory=response.data;
-                                    console.log($rootScope.subcategory);
+                                      if(response.data!="error")
+                                       $rootScope.subcategory=response.data;
+                                       else
+                                       {
+                                         $rootScope.subcategory=[];
+                                       }
                                   },function failure(response){
                                       console.log("failuressss");
                                   });
@@ -448,4 +468,48 @@ console.log(modelNames)
       });
 
   };
+
+/*****************************************************************************/
+   $scope.addsubcategory = function (data) {
+    $rootScope.heading="Add a new subcategory";
+    $rootScope.buttonname="Add Details";
+    //select category
+
+    SendFactory.seturl('category/displaycategory','GET','');
+    SendFactory.send()
+    .then(function success(response){
+
+        //$scope.data=response.data;
+        $rootScope.category=response.data;
+        console.log(response);
+    },function failure(response){
+        console.log("failuressss");
+    });
+
+    //
+    var uibModalInstance = $uibModal.open({
+      backdrop: 'static',
+      keyboard: false,
+      templateUrl: './views/admin/addsubcategory.html',
+      controller: [
+          '$scope', '$uibModalInstance',function($scope, $uibModalInstance) {
+              $scope.pdt={};
+              $scope.addsubcategorydetails = function() {
+              SendFactory.seturl('category/addsubcategory','POST',$scope.pdt);
+              SendFactory.send()
+              .then(function success(response){
+                    $rootScope.getsubcategory();
+                    $uibModalInstance.close(false);
+                },function failure(response){
+                    console.log("failuressss");
+                });
+            };
+              $scope.close = function() {
+                  $uibModalInstance.close(false);
+              };
+          }
+      ]
+    });
+ };
+/**********************************************/
 }])
