@@ -1,36 +1,80 @@
 
-<h3 style="color:#680201">Category Management</h3>
+<h3 style="color:#680201;margin-left:0px;">Category Management</h3>
 <br><br>
-<div class="panel-body">
+<a ng-click="addcategory()" style="color:#680201;margin-left:540px;margin-top:0px;" class="btn btn-info "> <span class="glyphicon glyphicon-plus"></span> Add new category</a>
+
+<div class="panel-body" id="abc">
 
 <div class="row">
 
 <div class="col-xs-4">
 <label for="search">Search:</label>
-<input ng-model="query" id="search" class="form-control" placeholder="Filter text">
+<input ng-model="query" id="search" class="form-control" placeholder="Type Here...">
 </div>
 
 <div class="col-xs-4">
 <label for="search">items per page:</label>
-<input type="number" min="1" max="100" class="form-control" ng-model="itemsperpage">
+<input type="number " min="1" max="100" class="form-control" ng-model="itemsperpage">
 </div>
 
 </div>
+
 <br>
-<table class="table table-striped table-bordered ">
-<tr> <th>Sl:No:</th> <th  style="padding-left:70px;padding-right:70px">Category&nbsp;name&nbsp;</th> <th>Status</th>
-<th>Edit</th> <th>Delete</th> <th>Select</th> </tr>
-<tr dir-paginate="x in category | filter:query | itemsPerPage: itemsperpage" >
-  <td>{{$index + 1}}</td>
-  <td>{{ x.category_name}}</td>
-  <td>{{ x.status }}</td>
-  <td><input type="button" class="btn btn-info" ng-click="edit(x.product_id)" value="Edit"></td>
-  <td><input type="button" class="btn btn-info" ng-click="delete(x.product_id)" value="Delete"></td>
-  <td><label class="checkbox-inline"><input type="checkbox" ng-model="x.selected"></label></td>
+<table class="table table-striped table-bordered "  ng-show="(category | filter:query).length > 0" >
+<tr> <th>Sl:No:</th> <th  style="padding-left:55px;padding-right:55px">Category&nbsp;name&nbsp;</th>
+<th>Edit</th>
+<th>Delete</th> <th>Edit&nbspStatus</th> <th>Select</th> </tr>
+<tr dir-paginate="x in category | filter:query | itemsPerPage: itemsperpage">
+<td>
+{{$index + 1}}
+</td>
+<td>
+{{ x.category_name}}
+</td>
+<td>
+<button class="btn btn-primary" ng-disabled="(x.status=='active')?false:true"  ng-click="editcategory(x)"><span class="glyphicon glyphicon-edit"></span> Edit</button>
+</td>
+<td>
+<button class="btn btn-primary" data-id='{{x.category_id}}' ng-disabled="(x.status=='active')?false:true" data-toggle="confirmation"><span class="glyphicon glyphicon-remove-circle"></span> Delete</button>
+<script>
+$('[data-toggle=confirmation]').confirmation({
+rootSelector: '[data-toggle=confirmation]',
+// other options
+onConfirm: function(event, element) {
+
+  if(element.attr('data-id')=='bulk')
+  {
+    console.log("hii");
+    angular.element(document.getElementById('btn')).scope().deletecategory('','bulk');
+  }
+  else
+  {
+    placement:'bottom',
+    angular.element(document.getElementById('abc')).scope().deletecategory(element.attr('data-id'),'single');
+  }
+}
+});
+</script>
+</td>
+<td>
+<button type="button" class="btn btn-default btn-success btn-sm" ng-show="(x.status=='active')?true:false"  ng-click="updatestatus('inactive',x.category_id);">
+<i class="fa fa-check-square-o"  aria-hidden="true"></i>
+</button>
+<button type="button" class="btn btn-default btn-danger btn-sm" ng-hide="(x.status=='active')?true:false"  ng-click="updatestatus('active',x.category_id);">
+<i class="fa fa-ban" aria-hidden="true" ></i>
+</button>
+</td>
+<td><label class="checkbox-inline"><input type="checkbox" ng-model="x.selected" ng-disabled="(x.status=='active')?false:true"></label></td>
 </tr>
-<tr> <td></td> <td></td> <td></td> <td></td> <td></td>
-<td><input type="button" class="btn btn-danger" ng-click="deleteall()" value="Delete"></td></tr>
+<tr style="border-style:hidden"> <td style="border: none;"></td> <td style="border: none;"></td> <td style="border: none;"></td> <td style="border: none;"></td> <td style="border: none;"></td>
+<td style="border: none;">
+<button ng-disabled="countChecked() == 0" class="btn btn-info" data-id='bulk' id="btn" data-toggle="confirmation">Delete</button>
+</td></tr>
 </table>
+
+<div class="alert alert-warning" ng-hide="(category | filter:query).length > 0" >
+<strong>Sorry!</strong> Oops!!....Nothing to display....
+</div>
 
 <dir-pagination-controls></dir-pagination-controls>
 

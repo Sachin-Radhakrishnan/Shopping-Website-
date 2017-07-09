@@ -31,7 +31,7 @@
           .state('admin.category', {
                url: '/pdt_category',
                templateUrl:'./views/admin/category_mgmt.html',
-             controller:'MainCtrl'
+             controller:'CategoryCtrl'
            })
 
            .state('admin.user', {

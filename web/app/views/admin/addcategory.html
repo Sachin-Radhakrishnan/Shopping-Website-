@@ -1,0 +1,28 @@
+<div class="modal-header">
+ <span style="color:red;" class="close" ng-click="close()">&times;Close</span>
+<h3 class="modal-title" style="color:#680201" > Add category</h3>
+</div>
+<div class="modal-body">
+  <form  class="form-horizontal" name="Form.Addcategory" role="form"  novalidate>
+      <div class="panel panel-default">
+
+        <div class="panel-body" style="padding:30px">
+
+               <div class="form-group" >
+                   <label  style="font-size:15px;color:#050096;">Category Name</label>
+                   <input  style="width:350px;" class="form-control" type="text" placeholder="category name" name="category_name" ng-model="pdt.category_name" ng-pattern="/^[a-zA-Z\s]{3,15}$/" required>
+                   <h5 style="color:red"  ng-show=" Form.Addcategory.category_name.$error.required && ! Form.Addcategory.category_name.$pristine">* Required Field </h5>
+                   <h5 style="color:red" ng-show="! Form.Addcategory.category_name.$error.required &&  Form.Addcategory.category_name.$error.pattern && ! Form.Addcategory.category_name.$pristine">** Invalid Format</h5>
+               </div>
+
+
+      </div>
+
+      </div>
+</form>
+    </div>
+
+
+<div class="modal-footer">
+<button class="btn btn-warning" type="button" ng-disabled=" Form.Addcategory.$invalid"  ng-click="addcategorydetails();" >Add Category</button>
+</div>

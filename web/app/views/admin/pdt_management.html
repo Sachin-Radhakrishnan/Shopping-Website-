@@ -1,7 +1,7 @@
 
 <h3 style="color:#680201;margin-left:0px;">Product Management</h3>
 <br><br>
-<a ng-click="addproduct()" style="color:#680201;margin-left:800px;margin-top:0px;" class="btn btn-info "> <span class="glyphicon glyphicon-plus"></span> Add new products</a>
+<a ng-click="addproduct()" style="color:#680201;margin-left:870px;margin-top:0px;" class="btn btn-info "> <span class="glyphicon glyphicon-plus"></span> Add new products</a>
 
 <div class="panel-body" id="abc">
 
@@ -21,72 +21,61 @@
 
 <br>
 <table class="table table-striped table-bordered "  ng-show="(product | filter:query).length > 0" >
-<tr> <th>Sl:No:</th> <th  style="padding-left:55px;padding-right:55px">Product&nbsp;name&nbsp;</th> <th style="padding-left:110px;padding-right:110px;">Description</th> <th>Quantity</th> <th>Price</th>
+<tr> <th>Sl:No:</th> <th  style="padding-left:55px;padding-right:55px">Product&nbsp;name&nbsp;</th> <th style="padding-left:110px;padding-right:110px;">Description</th>
+<th style="padding-left:25px;padding-right:25px">Price</th>
 <th>Edit</th> <th>Delete</th> <th>Edit&nbspStatus</th> <th>Select</th> </tr>
 <tr dir-paginate="x in product | filter:query | itemsPerPage: itemsperpage">
 <td>
 {{$index + 1}}
 </td>
 <td>
-{{ x.product_name}}
+{{ x.product_name + " ( "+ x.quantity + " )"}}
+</td>
+<td>{{ x.product_description }}</td>
+<td>{{ x.price }}</td>
+<td>
+<button class="btn btn-primary" ng-disabled="(x.status=='active')?false:true"  ng-click="editproduct(x)"><span class="glyphicon glyphicon-edit"></span> Edit</button>
+</td>
+<td>
+<button class="btn btn-primary" data-id='{{x.product_id}}' ng-disabled="(x.status=='active')?false:true" data-toggle="confirmation"><span class="glyphicon glyphicon-remove-circle"></span> Delete</button>
+<script>
+$('[data-toggle=confirmation]').confirmation({
+rootSelector: '[data-toggle=confirmation]',
+// other options
+onConfirm: function(event, element) {
 
-<!--
-    <div style="text-align: right;">
-                 <button type="button button-small" class="btn btn-default btn-lg">
-                   <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                   <i class="fa fa-ban" aria-hidden="true"></i>
-<i class="fa fa-ban" aria-hidden="true"></i>
-             </div>
--->
-
-  </td>
-  <td>{{ x.product_description }}</td>
-  <td>{{ x.quantity }}</td>
-  <td>{{ x.price }}</td>
-  <td>
-  <button class="btn btn-primary" ng-disabled="(x.status=='active')?false:true"  ng-click="editproduct(x)"><span class="glyphicon glyphicon-edit"></span> Edit</button>
-  </td>
-  <td>
-  <button class="btn btn-primary" data-id='{{x.product_id}}' ng-disabled="(x.status=='active')?false:true" data-toggle="confirmation"><span class="glyphicon glyphicon-remove-circle"></span> Delete</button>
-  <script>
-   $('[data-toggle=confirmation]').confirmation({
-      rootSelector: '[data-toggle=confirmation]',
-      // other options
-      onConfirm: function(event, element) {
-
-        if(element.attr('data-id')=='bulk')
-        {
-          console.log("hii");
-          angular.element(document.getElementById('btn')).scope().deleteproduct('','bulk');
-        }
-        else
-        {
-          placement:'bottom',
-          angular.element(document.getElementById('abc')).scope().deleteproduct(element.attr('data-id'),'single');
-        }
-      }
-   });
-  </script>
-  </td>
-  <td>
-    <button type="button" class="btn btn-default btn-success btn-sm" ng-show="(x.status=='active')?true:false"  ng-click="updatestatus('inactive',x.product_id);">
-     <i class="fa fa-check-square-o"  aria-hidden="true"></i>
-    </button>
-    <button type="button" class="btn btn-default btn-danger btn-sm" ng-hide="(x.status=='active')?true:false"  ng-click="updatestatus('active',x.product_id);">
-     <i class="fa fa-ban" aria-hidden="true" ></i>
-    </button>
-  </td>
-  <td><label class="checkbox-inline"><input type="checkbox" ng-model="x.selected" ng-disabled="(x.status=='active')?false:true"></label></td>
+  if(element.attr('data-id')=='bulk')
+  {
+    console.log("hii");
+    angular.element(document.getElementById('btn')).scope().deleteproduct('','bulk');
+  }
+  else
+  {
+    placement:'bottom',
+    angular.element(document.getElementById('abc')).scope().deleteproduct(element.attr('data-id'),'single');
+  }
+}
+});
+</script>
+</td>
+<td>
+<button type="button" class="btn btn-default btn-success btn-sm" ng-show="(x.status=='active')?true:false"  ng-click="updatestatus('inactive',x.product_id);">
+<i class="fa fa-check-square-o"  aria-hidden="true"></i>
+</button>
+<button type="button" class="btn btn-default btn-danger btn-sm" ng-hide="(x.status=='active')?true:false"  ng-click="updatestatus('active',x.product_id);">
+<i class="fa fa-ban" aria-hidden="true" ></i>
+</button>
+</td>
+<td><label class="checkbox-inline"><input type="checkbox" ng-model="x.selected" ng-disabled="(x.status=='active')?false:true"></label></td>
 </tr>
 <tr style="border-style:hidden" > <td style="border: none;"> </td> <td style="border: none;"></td> <td style="border: none;"></td> <td style="border: none;"></td> <td style="border: none;"></td> <td style="border: none;"></td> <td style="border: none;"></td>
-<td style="border: none;"></td>
 <td style="border: none;">
 <button ng-disabled="countChecked() == 0" class="btn btn-info" data-id='bulk' id="btn" data-toggle="confirmation">Delete</button>
 </td></tr>
 </table>
 
 <div class="alert alert-warning" ng-hide="(product | filter:query).length > 0" >
-  <strong>Sorry!</strong> Oops!!....Nothing to display....
+<strong>Sorry!</strong> Oops!!....Nothing to display....
 </div>
 
 <dir-pagination-controls></dir-pagination-controls>

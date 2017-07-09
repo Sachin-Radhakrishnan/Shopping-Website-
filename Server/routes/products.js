@@ -252,7 +252,7 @@ router.post('/placeorder', function(req, res,next) {
 
 });
 
-/*********************************************************************************************************************************/
+/************************************************* PRODUCT mANAGEMENT ********************************************************************************/
 router.get('/displayproducts', function(req, res) {
 
   var sql="select * from product order by product_id desc";
@@ -269,30 +269,14 @@ router.get('/displayproducts', function(req, res) {
     }
   });
 });
-/**********************************************************************************************************************************/
-router.get('/displaycategory', function(req, res) {
 
-  var sql="select * from category where  status='active' order by category_id";
-  db.select(sql,function(result){
-    if(result!='[]')
-    {
-    var result1 = JSON.parse(result);
-    res.json(result1);
-    res.end();
-    }
-    else
-    {
-      res.end("error");
-    }
-  });
-});
-/**********************************************************************************************************************************/
+/****************************************************************************************/
 router.post('/editproduct', function(req, res) {
 var sql="update product set product_name='"+req.body.product_name+"',product_description='"+req.body.product_description+"',price="+req.body.price+",quantity="+req.body.quantity+" where product_id="+req.body.product_id+"";
 db.update(sql);
 res.end();
 });
-/**********************************************************************************************************************************/
+/****************************************************************************************/
 router.post('/deleteproduct', function(req, res) {
 console.log(req.body);
 var status=req.body.status;
@@ -313,14 +297,14 @@ if(status=='single')
   }
 
 });
-/**********************************************************************************************************************************/
+/******************************************************************************************************/
 router.post('/addproduct', function(req, res) {
 console.log(req.body);
 //var sql="insert into product set ? "+req.body;
 db.insert("insert into product set ? ",req.body);
 res.end();
 });
-/**********************************************************************************************************************************/
+/*****************************************************************************************************/
 router.post('/editstatus', function(req, res) {
 console.log(req.body);
 var sql="update product set status='"+req.body.status+"' where product_id="+req.body.product_id+"";
@@ -328,6 +312,7 @@ db.update(sql);
 res.end();
 });
 
+/********************************************************************************************/
 
 
 

@@ -8,17 +8,26 @@
 
         <div class="panel-body" style="padding:30px">
 
+              <div class="form-group">
+              <label style="font-size:15px;color:#050096;" for="sel1">Select sub category:</label>
+                  <select style="width:350px;" class="form-control" id="subcategory_id" ng-model="pdt.subcategory_id" name="subcategory_id" >
+                  <option value="" ng-disabled="true">---Please select---</option>
+                  <option ng-repeat="x in subcategory"  value="{{x.subcategory_id}}">{{x.subcategory_name}}</option>
+                  </select>
+                  <h5 style="color:red"  ng-show="pdt.subcategory_id!=0 && Form.Addproducts.subcategory_id.$invalid && Form.Addproducts.subcategory_id.$error.required && ! Form.Addproducts.subcategory_id.$pristine">* Required Field </h5>
+              </div>
+
                <div class="form-group" >
                    <label  style="font-size:15px;color:#050096;">Product Name</label>
                    <input  style="width:350px;" class="form-control" type="text" placeholder="product name" name="product_name" ng-model="pdt.product_name" ng-pattern="/^[a-zA-Z\s]{3,15}$/" required>
                    <h5 style="color:red"  ng-show=" Form.Addproducts.product_name.$error.required && ! Form.Addproducts.product_name.$pristine">* Required Field </h5>
                    <h5 style="color:red" ng-show="! Form.Addproducts.product_name.$error.required &&  Form.Addproducts.product_name.$error.pattern && ! Form.Addproducts.product_name.$pristine">** Invalid Format</h5>
-               </div>
+                </div>
 
 
                 <div class="form-group">
                   <label style="font-size:15px;color:#050096;">Product Description</label>
-                  <textarea style="width:350px;" class="form-control" rows="5" placeholder="Product Description" name="description" ng-model="pdt.product_description" ng-pattern="/^([a-zA-Z0-9\s'().;:+=,'-]){5,}$/" required></textarea>
+                  <textarea style="width:350px;" class="form-control" rows="5" placeholder="Product Description" name="product_description" ng-model="pdt.product_description" ng-pattern="/^([a-zA-Z0-9\s'().;:+=,'-]){5,}$/" required></textarea>
                   <h5 style="color:red" ng-show="! Form.Addproducts.product_description.$error.required &&  Form.Addproducts.product_description.$error.pattern && ! Form.Addproducts.product_description.$pristine">** Invalid Format</h5>
                   <h5 style="color:red"  ng-show=" Form.Addproducts.product_description.$error.required && ! Form.Addproducts.product_description.$pristine">* Required Field </h5>
                 </div>
