@@ -133,6 +133,18 @@ $scope.addproduct = function (data) {
     });
  };
 /**************************************************************************************************************************/
+$scope.updatestatus=function(status,data)
+{
+  $scope.data3={status:status,product_id:data};
+  SendFactory.seturl('products/editstatus','POST',$scope.data3);
+  SendFactory.send()
+  .then(function success(response){
+    $rootScope.getproducts();
+   },function failure(response){
+        console.log("failuressss");
+    });
+
+};
 
 
 /*
