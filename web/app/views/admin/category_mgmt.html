@@ -42,6 +42,7 @@ $('[data-toggle=confirmation]').confirmation({
 rootSelector: '[data-toggle=confirmation]',
 // other options
 onConfirm: function(event, element) {
+  event.preventDefault();
 
   if(element.attr('data-id')=='bulk')
   {
@@ -50,7 +51,6 @@ onConfirm: function(event, element) {
   }
   else
   {
-    placement:'bottom',
     angular.element(document.getElementById('abc')).scope().deletecategory(element.attr('data-id'),'single');
   }
 }

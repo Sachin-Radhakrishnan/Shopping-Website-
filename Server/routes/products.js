@@ -301,8 +301,21 @@ if(status=='single')
 router.post('/addproduct', function(req, res) {
 console.log(req.body);
 //var sql="insert into product set ? "+req.body;
-db.insert("insert into product set ? ",req.body);
-res.end();
+var sql="SELECT * FROM product where  MATCH(product_name) against ('"+req.body.product_name+"*')";
+db.select(sql,function(result)
+{
+  if(result=='[]')
+  {
+    db.insert("insert into product set ? ",req.body);
+    res.end();
+  }
+  else
+  {
+    res.end("error");
+  }
+});
+
+
 });
 /*****************************************************************************************************/
 router.post('/editstatus', function(req, res) {

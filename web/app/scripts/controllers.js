@@ -7,9 +7,9 @@
  * # MainCtrl
  * Controller of the webDevelopApp
  */
- angular.module('starter.controllers', ['angularUtils.directives.dirPagination','ui.bootstrap'])
+ angular.module('starter.controllers', ['angularUtils.directives.dirPagination','ui.bootstrap','ngDialog'])
 
-.controller('MainCtrl',['$scope','$rootScope','$uibModal','SendFactory', function ($scope,$rootScope,$uibModal,SendFactory) {
+.controller('MainCtrl',['$scope','$rootScope','$uibModal','SendFactory','ngDialog', function ($scope,$rootScope,$uibModal,SendFactory,ngDialog) {
     $scope.remove={};
     $scope.query="";
     $scope.itemsperpage=4;
@@ -133,8 +133,30 @@ $scope.countChecked = function(){
               SendFactory.seturl('products/addproduct','POST',$scope.pdt);
               SendFactory.send()
               .then(function success(response){
-                    $rootScope.getproducts();
-                    $uibModalInstance.close(false);
+
+                if(response.data!='error')
+                {
+                  $rootScope.getproducts();
+                  $uibModalInstance.close(false);
+                }
+                else
+                {
+                  ngDialog.openConfirm({
+                  template: '<p>Product already exists..</p>',
+                  plain: true,
+                  className: 'ngdialog-theme-default ngdialog-cart-theme',
+                  showClose: true,
+                  appendTo: 'div[ui-view]',
+                  closeByDocument: false
+
+                  }).then(function (success) {
+                      // Success logic here
+                  }, function (error) {
+                      // Error logic here
+                  });
+                }
+
+
                 },function failure(response){
                     console.log("failuressss");
                 });
@@ -162,39 +184,7 @@ $scope.updatestatus=function(status,data)
 
   }])
 /*************************************************category management*****************************************************************************/
-/*
-$scope.deleteall=function()
-{
-  console.log($scope.remove);
-};
-
-$scope.deleteall = function() {
-    var modelNames = [];
-    angular.forEach($scope.data, function(object) {
-        if (object.selected) {
-        modelNames.push(object.product_id);
-      }
-    });
-console.log(modelNames)
- };
- /*
- SendFactory.seturl('products/displaycategory','GET','');
-   SendFactory.send()
-   .then(function success(response){
-
-       //$scope.data=response.data;
-       $scope.category=response.data;
-       console.log(response);
-   },function failure(response){
-       console.log("failuressss");
-   });
-
-  */
-
-
-
-
-  .controller('CategoryCtrl',['$scope','$rootScope','$state','$uibModal','SendFactory', function ($scope,$rootScope,$state,$uibModal,SendFactory) {
+  .controller('CategoryCtrl',['$scope','$rootScope','$state','$uibModal','SendFactory','ngDialog',function ($scope,$rootScope,$state,$uibModal,SendFactory,ngDialog) {
       $scope.remove={};
       $scope.query="";
       $scope.itemsperpage=4;
@@ -239,7 +229,7 @@ console.log(modelNames)
             $rootScope.subdata={category_id:data.category_id};
             console.log("hiii");
             console.log($rootScope.subdata);
-            //////////////////
+            //
             SendFactory.seturl('category/displayParticularsubcategory','POST',$rootScope.subdata);
             SendFactory.send()
             .then(function success(response){
@@ -442,8 +432,27 @@ console.log(modelNames)
                 SendFactory.seturl('category/addcategory','POST',$scope.pdt);
                 SendFactory.send()
                 .then(function success(response){
-                      $rootScope.getcategory();
-                      $uibModalInstance.close(false);
+                      if(response.data!='error')
+                      {
+                       $rootScope.getcategory();
+                       $uibModalInstance.close(false);
+                      }
+                      else
+                      {
+                        ngDialog.openConfirm({
+                        template: '<p>Category already exists..</p>',
+                        plain: true,
+                        className: 'ngdialog-theme-default ngdialog-cart-theme',
+                        showClose: true,
+                        appendTo: 'div[ui-view]',
+                        closeByDocument: false
+
+                        }).then(function (success) {
+                            // Success logic here
+                        }, function (error) {
+                            // Error logic here
+                        });
+                      }
                   },function failure(response){
                       console.log("failuressss");
                   });
@@ -498,8 +507,29 @@ console.log(modelNames)
               SendFactory.seturl('category/addsubcategory','POST',$scope.pdt);
               SendFactory.send()
               .then(function success(response){
+
+                  if(response.data!='error')
+                  {
                     $rootScope.getsubcategory();
                     $uibModalInstance.close(false);
+                  }
+                  else
+                  {
+                    ngDialog.openConfirm({
+                    template: '<p>Sub-Category already exists..</p>',
+                    plain: true,
+                    className: 'ngdialog-theme-default ngdialog-cart-theme',
+                    showClose: true,
+                    appendTo: 'div[ui-view]',
+                    closeByDocument: false
+
+                    }).then(function (success) {
+                        // Success logic here
+                    }, function (error) {
+                        // Error logic here
+                    });
+                  }
+
                 },function failure(response){
                     console.log("failuressss");
                 });
@@ -512,4 +542,86 @@ console.log(modelNames)
     });
  };
 /**********************************************/
+}])
+/******************************************************User management*************************************************************************/
+.controller('UserCtrl',['$scope','$rootScope','$uibModal','SendFactory', 'ngDialog',function ($scope,$rootScope,$uibModal,SendFactory,ngDialog) {
+
+  $rootScope.getusers=function()
+  {
+  SendFactory.seturl('users/displayusers','GET','');
+  SendFactory.send()
+  .then(function success(response){
+      $scope.user=response.data;
+    },function failure(response){
+        console.log("failuressss");
+    });
+  };
+
+  $rootScope.getusers();
+
+/************************************************************************/
+
+  $rootScope.getemployee=function()
+  {
+  SendFactory.seturl('users/displayemployee','GET','');
+  SendFactory.send()
+  .then(function success(response){
+      $scope.employee=response.data;
+    },function failure(response){
+        console.log("failuressss");
+    });
+  };
+
+  $rootScope.getemployee();
+
+/************************************************************************/
+
+  $scope.updateuserstatus=function(status,data)
+  {
+    $scope.data3={status:status,user_id:data};
+    SendFactory.seturl('users/editstatus','POST',$scope.data3);
+    SendFactory.send()
+    .then(function success(response){
+      $rootScope.getusers();
+     },function failure(response){
+
+          console.log("failuressss");
+      });
+
+  };
+
+/*****************************************************************/
+$scope.editemployee = function (data) {
+
+$rootScope.heading="Edit Details";
+$rootScope.buttonname="Edit Details";
+$rootScope.submitname="editdetails();";
+var uibModalInstance = $uibModal.open({
+  backdrop: 'static',
+  keyboard: false,
+  templateUrl: './views/admin/editemployee.html',
+  controller: [
+      '$scope', '$uibModalInstance',function($scope, $uibModalInstance) {
+          $scope.executive={employee_id:data.employee_id,fname:data.fname,lname:data.lname,gender:data.gender,salary:data.salary};
+          $scope.editemployeedetails = function() {
+            SendFactory.seturl('users/editemployee','POST',$scope.executive);
+            SendFactory.send()
+            .then(function success(response){
+              $rootScope.getemployee();
+              $uibModalInstance.close(false);
+              },function failure(response){
+                  console.log("failuressss");
+              });
+
+          };
+
+          $scope.close = function() {
+              $uibModalInstance.close(false);
+          };
+      }
+  ]
+});
+};
+/************************************************************************/
+
 }])

@@ -10,11 +10,11 @@
 
               <div class="form-group">
               <label style="font-size:15px;color:#050096;" for="sel1">Select sub category:</label>
-                  <select style="width:350px;" class="form-control" id="subcategory_id" ng-model="pdt.subcategory_id" name="subcategory_id" >
+                  <select style="width:350px;" class="form-control" id="subcategory_id" ng-model="pdt.subcategory_id" name="subcategory_id" required >
                   <option value="" ng-disabled="true">---Please select---</option>
                   <option ng-repeat="x in subcategory"  value="{{x.subcategory_id}}">{{x.subcategory_name}}</option>
                   </select>
-                  <h5 style="color:red"  ng-show="pdt.subcategory_id!=0 && Form.Addproducts.subcategory_id.$invalid && Form.Addproducts.subcategory_id.$error.required && ! Form.Addproducts.subcategory_id.$pristine">* Required Field </h5>
+                  <h5 style="color:red"  ng-show="Form.Addproducts.subcategory_id.$error.required && ! Form.Addproducts.product_name.$pristine">* Required Field </h5>
               </div>
 
                <div class="form-group" >

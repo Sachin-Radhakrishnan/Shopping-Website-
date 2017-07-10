@@ -11,16 +11,16 @@
 
               <div class="form-group">
               <label style="font-size:15px;color:#050096;" for="sel1">Select Category:</label>
-                  <select style="width:350px;" class="form-control" id="category_id" ng-model="pdt.category_id" name="category_id" >
+                  <select style="width:350px;" class="form-control" id="category_id" ng-model="pdt.category_id" name="category_id" required >
                   <option value="" ng-disabled="true">---Please select---</option>
                   <option ng-repeat="x in category track by $index"  value="{{x.category_id}}">{{x.category_name}}</option>
                   </select>
-                  <h5 style="color:red"  ng-show=" Form.Addsubcategory.category_id.$invalid && Form.Addsubcategory.category_id.$error.required && ! Form.Addsubcategory.category_id.$pristine">* Required Field </h5>
+                  <h5 style="color:red"  ng-show=" Form.Addsubcategory.category_id.$error.required && pdt.category_id==null && ! Form.Addsubcategory.category_name.$pristine">* Required Field </h5>
               </div>
 
                <div class="form-group" >
                    <label  style="font-size:15px;color:#050096;">Sub Category Name</label>
-                   <input  style="width:350px;" class="form-control" type="text" placeholder="category name" name="category_name" ng-model="pdt.subcategory_name" ng-pattern="/^[a-zA-Z\s]{3,15}$/" required>
+                   <input  style="width:350px;" class="form-control" type="text" placeholder="category name" name="category_name" ng-model="pdt.subcategory_name" ng-pattern="/^[a-zA-Z0-9':-_\s]{3,35}$/" maxlength="35" required>
                    <h5 style="color:red"  ng-show=" Form.Addsubcategory.category_name.$error.required && ! Form.Addsubcategory.category_name.$pristine">* Required Field </h5>
                    <h5 style="color:red" ng-show="! Form.Addsubcategory.category_name.$error.required &&  Form.Addsubcategory.category_name.$error.pattern && ! Form.Addsubcategory.category_name.$pristine">** Invalid Format</h5>
                </div>
@@ -34,5 +34,5 @@
 
 
 <div class="modal-footer">
-<button class="btn btn-warning" type="button" ng-disabled=" Form.Addsubcategory.$invalid"  ng-click="addsubcategorydetails();" >Add SubCategory</button>
+<button class="btn btn-warning" type="button" ng-disabled=" Form.Addsubcategory.$invalid || pdt.category_id==null"  ng-click="addsubcategorydetails();" >Add SubCategory</button>
 </div>

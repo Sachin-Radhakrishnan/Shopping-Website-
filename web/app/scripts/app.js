@@ -37,7 +37,7 @@
            .state('admin.user', {
                 url: '/user',
                 templateUrl:'./views/admin/user_mgmt.html',
-              controller:'MainCtrl'
+              controller:'UserCtrl'
             })
 
 

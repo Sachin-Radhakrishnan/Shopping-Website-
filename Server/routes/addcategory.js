@@ -175,15 +175,41 @@ console.log(req.body);
 router.post('/addcategory', function(req, res) {
 console.log(req.body);
 //var sql="insert into category set ? "+req.body;
-db.insert("insert into category set ? ",req.body);
-res.end();
+var sql="SELECT * FROM category where  MATCH(category_name) against ('"+req.body.category_name+"*')";
+db.select(sql,function(result)
+{
+  if(result=='[]')
+  {
+    db.insert("insert into category set ? ",req.body);
+    res.end();
+  }
+  else
+  {
+    res.end("error");
+  }
+});
+
+
 });
 /*****************************************************************************************************/
 router.post('/addsubcategory', function(req, res) {
 console.log(req.body);
 //var sql="insert into category set ? "+req.body;
-db.insert("insert into subcategory set ? ",req.body);
-res.end();
+var sql="SELECT * FROM subcategory where  MATCH(subcategory_name) against ('"+req.body.subcategory_name+"*')";
+db.select(sql,function(result)
+{
+  if(result=='[]')
+  {
+    db.insert("insert into subcategory set ? ",req.body);
+    res.end();
+  }
+  else
+  {
+    res.end("error");
+  }
+});
+
+
 });
 /*****************************************************************************************************/
 router.post('/editstatus', function(req, res) {
