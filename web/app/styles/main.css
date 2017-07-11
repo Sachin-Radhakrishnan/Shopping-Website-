@@ -1,7 +1,7 @@
 .navbar {
   margin-bottom: 0;
   border-radius: 0;
-  background-color:#0a00ce;
+  background-color:#ff6f00;
  }
 .nav.navbar-nav li a {
   color: white;
@@ -24,22 +24,37 @@
 /* Set gray background color and 100% height */
 .sidenav {
   padding-top: 20px;
-  background-color: #eff7d7;
+/*  background-color: #eff7d7;*/
   height: 100%;
 }
 
-.navbar-header > a{color:white;background:green;padding-right:98px;}
+/* .navbar-header > a{color:white;background:green;padding-right:98px;}
 
 /* Set black background color, white text and some padding */
+body {
+  background: url(../images/logo3.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 footer {
-  background-color: #0a00ce;
+  background-color: #ff6d00 ;
   color: white;
-  padding: 15px;
+
   margin-top:0px;
+  height:10px;
+/*   position: absolute;
+   bottom: 0;
+   width: 100%;
+  /*position:absolute;
+  bottom: 0px;*/
 }
 
 .table  td   {
    text-align: center;
+   
 }
 
 .table  th   {
@@ -65,6 +80,12 @@ footer {
         border-bottom: 1px solid #ddd;
         padding: 10px;
     }
+
+    .panel-default {
+opacity: 0.9;
+margin-top:30px;
+}
+.form-group.last { margin-bottom:0px; }
 /* On small screens, set height to 'auto' for sidenav and grid */
 @media screen and (max-width: 767px) {
   .sidenav {

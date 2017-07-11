@@ -1,0 +1,90 @@
+<div class="modal-header">
+ <span style="color:red;" class="close" ng-click="close()">&times;Close</span>
+<h3 class="modal-title" style="color:#680201" >{{heading}}</h3>
+</div>
+<div class="modal-body" style="width:auto;">
+  <form  class="form-horizontal" name="Form.Editcategory" role="form"  novalidate>
+      <div class="panel panel-default">
+
+        <div class="panel-body" style="padding:30px" id="abc">
+
+               <div class="form-group" >
+                   <label  style="font-size:15px;color:#050096;">Category Name</label>
+                   <input  style="width:350px;" class="form-control" type="text" placeholder="category name" name="category_name" ng-model="pdt.category_name" ng-pattern="/^[a-zA-Z\s]{3,15}$/" required>
+                   <h5 style="color:red"  ng-show=" Form.Editcategory.category_name.$error.required && ! Form.Editcategory.category_name.$pristine">* Required Field </h5>
+                   <h5 style="color:red" ng-show="! Form.Editcategory.category_name.$error.required &&  Form.Editcategory.category_name.$error.pattern && ! Form.Editcategory.category_name.$pristine">** Invalid Format</h5>
+               </div>
+
+               <div class="form-group" >
+                   <label  style="font-size:15px;color:#050096;">Sub Categories</label>
+                   <table class="table table-striped table-bordered " >
+                   <tr> <th>Sl:No:</th> <th  style="padding-left:55px;padding-right:55px">SubCategory&nbsp;</th>
+                   <th>Edit</th>
+                   <th>Delete</th> <th>Edit&nbspStatus</th> </tr>
+                   <tr dir-paginate="x in subcategory| itemsPerPage: 4" pagination-id="cust">
+                   <td>
+                   {{$index + 1}}
+                   </td>
+                   <td>
+                   <input  style="width:150px;" id="cde"  class="form-control" type="text" ng-disabled="button"  data-id="button" name="subcategory_name" ng-model="x.subcategory_name" ng-pattern="/^[a-zA-Z\s]{3,15}$/" required>
+                   </td>
+
+                   <td>
+                   <button type="button" ng-show="button" class="btn btn-primary" ng-disabled="(x.status=='active')?false:true"  ng-click="button=false"> <span class="glyphicon glyphicon-edit"></span> View </button>
+                   <button type="button" ng-hide="button" class="btn btn-warning" ng-disabled="(x.status=='active')?false:true"  data-toggle="confirmation" data-id="{{x}}" ><span class="glyphicon glyphicon-ok"></span> Edit</button>
+                   </td>
+
+
+                   <td>
+                   <button class="btn btn-primary" data-id='{{x.subcategory_id}}' ng-disabled="(x.status=='active')?false:true" data-toggle="confirmation"><span class="glyphicon glyphicon-remove-circle"></span> Delete</button>
+                   <script>
+                   $('[data-toggle=confirmation]').confirmation({
+                   rootSelector: '[data-toggle=confirmation]',
+                   // other options
+                   btnOkLabel:'Change ',
+                   onConfirm: function(event, element) {
+                    //prevent page reload
+                    event.preventDefault();
+
+                    if( typeof(JSON.parse(element.attr('data-id')))!='number')
+                      {
+                        angular.element(document.getElementById('cde')).scope().editsubcategory(JSON.parse(element.attr('data-id')));
+                      }
+                      else
+                      {
+                        angular.element(document.getElementById('cde')).scope().deletesubcategory(element.attr('data-id'));
+
+                      }
+
+                   }
+                   });
+                   </script>
+                   </td>
+
+                   <td>
+                   <button type="button" class="btn btn-default btn-success btn-sm" ng-show="(x.status=='active')?true:false"  ng-click="update_subcat_status('inactive',x.subcategory_id);">
+                   <i class="fa fa-check-square-o"  aria-hidden="true"></i>
+                   </button>
+                   <button type="button" class="btn btn-default btn-danger btn-sm" ng-hide="(x.status=='active')?true:false"  ng-click="update_subcat_status('active',x.subcategory_id);">
+                   <i class="fa fa-ban" aria-hidden="true" ></i>
+                   </button>
+                   </td>
+
+
+
+                   </tr>
+                   </table>
+
+                   <dir-pagination-controls pagination-id="cust"></dir-pagination-controls>
+               </div>
+
+
+      </div>
+
+      </div>
+</form>
+    </div>
+
+<div class="modal-footer">
+<button class="btn btn-warning" type="submit"  ng-click="editdetails()">Edit Details</button>
+</div>

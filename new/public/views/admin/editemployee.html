@@ -1,0 +1,47 @@
+<div class="modal-header">
+ <span style="color:red;" class="close" ng-click="close()">&times;Close</span>
+<h3 class="modal-title" style="color:#680201" >{{heading}}</h3>
+</div>
+<div class="modal-body">
+  <form  class="form-horizontal" name="Form.Editemployee" role="form"  novalidate>
+      <div class="panel panel-default">
+
+        <div class="panel-body" style="padding:30px">
+
+               <div class="form-group" >
+                   <label  style="font-size:15px;color:#050096;">First Name</label>
+                   <input  style="width:350px;" class="form-control" type="text" placeholder="First name" name="fname" ng-model="executive.fname" ng-pattern="/^[a-zA-Z\s]{3,15}$/" required>
+                   <h5 style="color:red"  ng-show=" Form.Editemployee.fname.$error.required && ! Form.Editemployee.fname.$pristine">* Required Field </h5>
+                   <h5 style="color:red" ng-show="! Form.Editemployee.fname.$error.required &&  Form.Editemployee.fname.$error.pattern && ! Form.Editemployee.fname.$pristine">** Invalid Format</h5>
+               </div>
+
+
+                <div class="form-group">
+                    <label  style="font-size:15px;color:#050096;">Last Name</label>
+                    <input  class="form-control" style="width:350px;" type="text" placeholder="Last Name" name="lname" ng-model="executive.lname" ng-pattern="/^[a-zA-Z\s]{3,15}$/" required  maxlength="7">
+                    <h5 style="color:red"  ng-show=" Form.Editemployee.lname.$error.required && ! Form.Editemployee.lname.$pristine">* Required Field </h5>
+                    <h5 style="color:red" ng-show="! Form.Editemployee.lname.$error.required &&  Form.Editemployee.lname.$error.pattern && ! Form.Editemployee.lname.$pristine">** Invalid Format</h5>
+                </div>
+
+                <div class="form-group">
+                    <label  style="font-size:15px;color:#050096;">Gender</label>
+                    <input  class="form-control"  style="width:350px;" type="text" placeholder="Gender" name="gender" ng-model="executive.gender" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label  style="font-size:15px;color:#050096;">Salary</label>
+                    <input  class="form-control"  style="width:350px;" type="text" placeholder="salary" name="salary" ng-model="executive.salary" ng-pattern="/^[0-9]{1,5}$/" required  maxlength="4">
+                    <h5 style="color:red"  ng-show=" Form.Editemployee.salary.$error.required && ! Form.Editemployee.salary.$pristine">* Required Field </h5>
+                    <h5 style="color:red" ng-show="! Form.Editemployee.salary.$error.required &&  Form.Editemployee.salary.$error.pattern && ! Form.Editemployee.salary.$pristine">** Invalid Format</h5>
+                </div>
+
+
+           </div>
+
+      </div>
+</form>
+    </div>
+
+<div class="modal-footer">
+<button class="btn btn-warning" type="button"  ng-click="editemployeedetails()">{{buttonname}}</button>
+</div>

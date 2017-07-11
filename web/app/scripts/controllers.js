@@ -7,7 +7,7 @@
  * # MainCtrl
  * Controller of the webDevelopApp
  */
- angular.module('starter.controllers', ['angularUtils.directives.dirPagination','ui.bootstrap','ngDialog'])
+ angular.module('starter.controllers', ['angularUtils.directives.dirPagination','ui.bootstrap','ngDialog','chart.js'])
 
 .controller('MainCtrl',['$scope','$rootScope','$uibModal','SendFactory','ngDialog', function ($scope,$rootScope,$uibModal,SendFactory,ngDialog) {
     $scope.remove={};
@@ -687,9 +687,11 @@ $scope.addexecutive = function (data) {
 /***********************************************************/
 }])
 /************************************************************************************************************************************/
-.controller('ExecCtrl',['$scope','$rootScope','$state','$uibModal','SendFactory','ngDialog',function ($scope,$rootScope,$state,$uibModal,SendFactory,ngDialog) {
+.controller('ExecCtrl',['socket','$scope','$rootScope','$state','$uibModal','SendFactory','ngDialog',function (socket,$scope,$rootScope,$state,$uibModal,SendFactory,ngDialog) {
 
   $scope.filterdata={};
+
+
 
   $scope.getorders=function()
   {
@@ -700,6 +702,32 @@ $scope.addexecutive = function (data) {
     {
       $scope.orders=response.data;
       console.log(response.data);
+      $scope.pending=0;
+      $scope.shipped=0;
+      $scope.d = new Date();
+      $scope.curr_date = $scope.d.getDate();
+      $scope.curr_month = $scope.d.getMonth() + 1;
+      $scope.curr_year = $scope.d.getFullYear();
+      $scope.date=$scope.curr_month + "-" + $scope.curr_date +"-" + $scope.curr_year;
+      console.log($scope.date);
+      for(var i=0;i<$scope.orders.length;i++)
+      {
+
+        if($scope.orders[i].status=="pending" && $scope.orders[i].date_added==$scope.date )
+        {
+          console.log($scope.orders[i].status);
+          $scope.pending++;
+        }
+        else
+        {
+          $scope.shipped++;
+        }
+
+      }
+
+      $scope.labels = ["Shipped", "Pending"];
+      $scope.data = [$scope.shipped, $scope.pending];
+      console.log($scope.data);
     }
     else
     {
@@ -710,23 +738,69 @@ $scope.addexecutive = function (data) {
     });
   };
 
-  $scope.getorders();
+    $scope.getorders();
 
-  //var socket=io.connect();
-  //socket.on('notification',function(data){
-  //  client.on("orderplaced",function(data){
-      //console.log(data);
-      //$scope.getorders();
-    //});
+    socket.on("Placedordersuccessfully",function(data){
+    $scope.getorders();
+    });
+
+}])
+/***************************************************************************************************************************/
+.controller('LoginController',['$scope','$state','SendFactory','$window',function($scope,$state,SendFactory,$window){
+
+  $scope.login={};
+  $scope.Form={};
+  $scope.showAlert = function() {
+
+  var alertPopup = $ionicPopup.alert({
+  title: 'Instructions',
+  template: 'Username must contain only alphanumeric characters or <br> single hyphen/underscore,<br> & must begin or end with an alphabet',
+
+  });
+  alertPopup.then(function(res) {
+  });
+
+  };
+  //on form submission
+  $scope.OnSubmission=function(){
+        //for showing the server delay
+        $ionicLoading.show({
+                 content: 'Loading',
+                 animation: 'fade-in',
+                 showBackdrop: true,
+                 maxWidth: 200,
+                 showDelay: 0
+               });
+
+        SendFactory.seturl('login','POST',$scope.login);
+        SendFactory.send()
+        .then(function success(response)
+        {
+          console.log(response);
+          $window.localStorage['token']=response.data.token;
+          console.log($window.localStorage['token']);
+
+          $ionicLoading.hide();
+          //clear the form
+          $scope.login={};
+          $scope.Form.LoginForm.$setPristine();
+          $scope.Form.LoginForm.$setUntouched();
+          $state.transitionTo('app.products', {}, { reload: true, inherit: true, notify: true });
 
 
+        },function failure(response)
+        {
 
-//  });
-var socket = io.connect('http://localhost:3000/');
-socket.on('orderplaced', function (data) {
-  console.log(data);
-  //socket.emit('my other event', { my: 'data' });
-});
-
+          $window.localStorage.removeItem('token');
+          $ionicLoading.hide();
+          $ionicLoading.show({
+              template: 'Unauthorized User',
+              scope: $scope
+            });
+           $timeout(function() {
+               $ionicLoading.hide();
+           }, 2000);
+        });
+  };
 
 }])

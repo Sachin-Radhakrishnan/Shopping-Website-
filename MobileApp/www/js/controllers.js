@@ -107,7 +107,7 @@ angular.module('starter.controllers', [])
 }])
 
 /********************************************************************************************/
-.controller('ProductsCtrl',['$scope','SendFactory','$rootScope','$state','$ionicPopup','$ionicHistory','$window','$ionicLoading','$timeout','$ionicConfig',function($scope,SendFactory,$rootScope,$state,$ionicPopup,$ionicHistory,$window,$ionicLoading,$timeout,$ionicConfig){
+.controller('ProductsCtrl',['$scope','SendFactory','socket','$rootScope','$state','$ionicPopup','$ionicHistory','$window','$ionicLoading','$timeout','$ionicConfig',function($scope,SendFactory,socket,$rootScope,$state,$ionicPopup,$ionicHistory,$window,$ionicLoading,$timeout,$ionicConfig){
 
   $scope.delete='delete';
   $scope.showlogo=true;
@@ -428,7 +428,7 @@ $rootScope.placeorder=function(){
       $rootScope.grandtotal=$rootScope.total+Math.round($rootScope.total*0.01);
       $rootScope.checkout.grandtotal=$rootScope.grandtotal;
       $rootScope.checkout.pdt_ids=$rootScope.pdt_ids;
-      SendFactory.seturl('products/placeorder','POST',$rootScope.checkout);
+      SendFactory.seturl('placeorder','POST',$rootScope.checkout);
       SendFactory.send()
       .then(function success(response){
 
@@ -438,6 +438,11 @@ $rootScope.placeorder=function(){
          }
          else if(response.data=="success")
          {
+           //send a socket message
+           socket.emit("placedorder","placed the order");
+           socket.on("Placedordersuccessfully",function(data){
+             console.log(data);
+           });
            $ionicPopup.alert({
               title: 'Online Shopping site',
               template: 'Successfully placed the order...',

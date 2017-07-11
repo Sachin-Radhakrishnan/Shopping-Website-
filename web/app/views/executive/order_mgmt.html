@@ -1,8 +1,8 @@
 <div class="container">
 <br><br>
   <div class="panel-group" style="width:800px;">
-    <div class="panel panel-primary">
-      <div class="panel-heading">Filter Orders</div>
+    <div class="panel panel-info">
+      <div class="panel-heading"><span class="glyphicon glyphicon-filter"></span><b> Filter Orders</b></div>
       <div class="panel-body">
 
           <!--  form group 1 -->
@@ -23,7 +23,7 @@
           <input class="form-control datepicker"  type="text" id="abc" ng-model="filterdata.date_added" >
           </div>
           <script>
-          $('.datepicker').datetimepicker({format:'MM-DD-YYYY'});
+          $('.datepicker').datetimepicker({format:'M-D-YYYY'});
           $(".datepicker").on("dp.change", function() {
            var e = document.getElementById("abc");
            e.value = $(".datepicker").val();
@@ -57,8 +57,8 @@
 
     <br><br>
     <!-- populating data from our database -->
-    <div class="panel panel-primary">
-      <div class="panel-heading">Orders</div>
+    <div class="panel panel-info">
+      <div class="panel-heading"><span class="glyphicon glyphicon-list-alt"></span><b> Orders</b></div>
       <div class="panel-body">
 <!---------------------------------------------------------------------------------------------------------------->
           <br>

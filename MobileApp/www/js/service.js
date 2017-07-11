@@ -2,7 +2,7 @@
 
 angular.module('starter.service', ['ngResource'])
 
-.constant('baseUrl','http://192.168.43.139:3000/')
+.constant('baseUrl','http://localhost:3000/')
 //factory for sending http requests to server
 .factory('SendFactory',['$http','baseUrl',function($http,baseUrl){
 var url1="",method="",data="";
@@ -37,6 +37,20 @@ return obj;
     }
   };
 })
+
+.factory('socket', ['$rootScope', function($rootScope) {
+
+      var socket = io.connect('http://localhost:3000/');
+
+		  return {
+		    on: function(eventName, callback){
+		      socket.on(eventName, callback);
+		    },
+		    emit: function(eventName, data) {
+		      socket.emit(eventName, data);
+		    }
+		  };
+		}])
 
 .config(function ($httpProvider) {
   $httpProvider.interceptors.push('authInterceptor');

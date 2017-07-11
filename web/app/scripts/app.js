@@ -8,13 +8,16 @@
  *
  * Main module of the application.
  */
- var MyApp = angular.module('WebApp', ['service','starter.controllers','ui.router','angularUtils.directives.dirPagination','ui.bootstrap'])
+ var MyApp = angular.module('WebApp', ['service','starter.controllers','ui.router','angularUtils.directives.dirPagination','ui.bootstrap','chart.js'])
 
 .config(function($stateProvider, $urlRouterProvider) {
 
-
-
  $stateProvider
+
+         .state('home', {
+              url: '/home',
+              templateUrl: './views/homepage.html'
+          })
 
         .state('admin', {
              url: '/admin',
@@ -64,6 +67,6 @@
              // we'll get to this in a bit
          });
 
-$urlRouterProvider.otherwise('executive/dashboard');
+$urlRouterProvider.otherwise('/home');
 
 });

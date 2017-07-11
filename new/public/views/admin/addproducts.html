@@ -1,0 +1,57 @@
+<div class="modal-header">
+ <span style="color:red;" class="close" ng-click="close()">&times;Close</span>
+<h3 class="modal-title" style="color:#680201" >{{heading}}</h3>
+</div>
+<div class="modal-body">
+  <form  class="form-horizontal" name="Form.Addproducts" role="form"  novalidate>
+      <div class="panel panel-default">
+
+        <div class="panel-body" style="padding:30px">
+
+              <div class="form-group">
+              <label style="font-size:15px;color:#050096;" for="sel1">Select sub category:</label>
+                  <select style="width:350px;" class="form-control" id="subcategory_id" ng-model="pdt.subcategory_id" name="subcategory_id" required >
+                  <option value="" ng-disabled="true">---Please select---</option>
+                  <option ng-repeat="x in subcategory"  value="{{x.subcategory_id}}">{{x.subcategory_name}}</option>
+                  </select>
+                  <h5 style="color:red"  ng-show="Form.Addproducts.subcategory_id.$error.required && ! Form.Addproducts.product_name.$pristine">* Required Field </h5>
+              </div>
+
+               <div class="form-group" >
+                   <label  style="font-size:15px;color:#050096;">Product Name</label>
+                   <input  style="width:350px;" class="form-control" type="text" placeholder="product name" name="product_name" ng-model="pdt.product_name" ng-pattern="/^[a-zA-Z\s]{3,15}$/" required>
+                   <h5 style="color:red"  ng-show=" Form.Addproducts.product_name.$error.required && ! Form.Addproducts.product_name.$pristine">* Required Field </h5>
+                   <h5 style="color:red" ng-show="! Form.Addproducts.product_name.$error.required &&  Form.Addproducts.product_name.$error.pattern && ! Form.Addproducts.product_name.$pristine">** Invalid Format</h5>
+                </div>
+
+
+                <div class="form-group">
+                  <label style="font-size:15px;color:#050096;">Product Description</label>
+                  <textarea style="width:350px;" class="form-control" rows="5" placeholder="Product Description" name="product_description" ng-model="pdt.product_description" ng-pattern="/^([a-zA-Z0-9\s'().;:+=,'-]){5,}$/" required></textarea>
+                  <h5 style="color:red" ng-show="! Form.Addproducts.product_description.$error.required &&  Form.Addproducts.product_description.$error.pattern && ! Form.Addproducts.product_description.$pristine">** Invalid Format</h5>
+                  <h5 style="color:red"  ng-show=" Form.Addproducts.product_description.$error.required && ! Form.Addproducts.product_description.$pristine">* Required Field </h5>
+                </div>
+
+                <div class="form-group">
+                    <label  style="font-size:15px;color:#050096;">Price</label>
+                    <input  class="form-control" style="width:350px;" type="text" placeholder="Price" name="price" ng-model="pdt.price" ng-pattern="/^[0-9,]{2,8}$/" required  maxlength="7">
+                    <h5 style="color:red"  ng-show=" Form.Addproducts.price.$error.required && ! Form.Addproducts.price.$pristine">* Required Field </h5>
+                    <h5 style="color:red" ng-show="! Form.Addproducts.price.$error.required &&  Form.Addproducts.price.$error.pattern && ! Form.Addproducts.price.$pristine">** Invalid Format</h5>
+                </div>
+
+                <div class="form-group">
+                    <label  style="font-size:15px;color:#050096;">Quantity</label>
+                    <input  class="form-control"  style="width:350px;" type="text" placeholder="Quantity" name="quantity" ng-model="pdt.quantity" ng-pattern="/^[0-9]{1,5}$/" required  maxlength="4">
+                    <h5 style="color:red"  ng-show=" Form.Addproducts.quantity.$error.required && ! Form.Addproducts.quantity.$pristine">* Required Field </h5>
+                    <h5 style="color:red" ng-show="! Form.Addproducts.quantity.$error.required &&  Form.Addproducts.quantity.$error.pattern && ! Form.Addproducts.quantity.$pristine">** Invalid Format</h5>
+                </div>
+
+           </div>
+
+      </div>
+</form>
+    </div>
+
+<div class="modal-footer">
+<button class="btn btn-warning" type="button" ng-disabled=" Form.Addproducts.$invalid"  ng-click="addproductdetails();" >{{buttonname}}</button>
+</div>
