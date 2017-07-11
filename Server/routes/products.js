@@ -1,3 +1,5 @@
+module.exports = function(io) {
+/************************************/
 var express=require('express');
 var app=express();
 var router=express.Router();
@@ -6,6 +8,9 @@ var crypto=require('crypto');
 var path = require('path');
 var db=require('./database');
 var auth=require('./authenticate');
+//var server=app.listen(3000);
+//creating a socket.io instance
+//var socket=io.listen(server);
 
 router.use(bodyParser.json());
 
@@ -236,7 +241,29 @@ router.post('/placeorder', function(req, res,next) {
                          db.update(sql3);
                        }
                      db.delete(sql2);
+                     var sql4="insert into shippingDetails(fname,lname,address,city,state,zip,user_id) values ('"+req.body.fname+"','"+req.body.lname+"','"+req.body.address+"','"+req.body.city+"','"+req.body.state+"',"+req.body.zip+","+user[0].user_id+")"
+                     db.insert(sql4);
+                     var d = new Date();
+                     var curr_date = d.getDate();
+                     var curr_month = d.getMonth() + 1; //Months are zero based
+                     var curr_year = d.getFullYear();
+                     var date=curr_month + "-" + curr_date +"-" + curr_year;
+                     var sql="select max(shipping_id) as id from shippingDetails";
+                     db.select(sql,function(result){
+                     var result1 = JSON.parse(result);
+                     var sql4="insert into orders(user_id,shipping_id,total,date_added,status) values ("+user[0].user_id+","+result1[0].id+","+req.body.grandtotal+",'"+date+"','pending')";
+                     db.insert(sql4);
+                     io.on('connection', function(socket) {
+
+                       console.log("socket eneterd");
+                       socket.emit("orderplaced","hello..server....");
+
+                     });
+
                      res.json("success");
+
+                     });
+
                    }
                 }
          });
@@ -250,6 +277,23 @@ router.post('/placeorder', function(req, res,next) {
 
   })(req, res, next);
 
+});
+/*****************************************************************************************************************************************************/
+router.get('/displayorders', function(req, res) {
+
+  var sql="SELECT (select email from users where user_id=ord.user_id) as email,(select username from  users where user_id=ord.user_id) as username,ord.order_id,ord.status,ord.date_added,ord.total FROM shippingDetails as s INNER JOIN orders as ord ON s.shipping_id=ord.shipping_id ";
+  db.select(sql,function(result){
+    if(result!='[]')
+    {
+    var result1 = JSON.parse(result);
+    res.json(result1);
+    res.end();
+    }
+    else
+    {
+      res.end("error");
+    }
+  });
 });
 
 /************************************************* PRODUCT mANAGEMENT ********************************************************************************/
@@ -327,6 +371,8 @@ res.end();
 
 /********************************************************************************************/
 
+return router;
 
+}
 
-module.exports = router;
+//module.exports = router;

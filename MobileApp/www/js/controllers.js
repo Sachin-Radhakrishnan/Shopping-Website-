@@ -440,7 +440,7 @@ $rootScope.placeorder=function(){
          {
            $ionicPopup.alert({
               title: 'Online Shopping site',
-              template: 'Successfully placed the error...',
+              template: 'Successfully placed the order...',
               okText:'Okay!'
             }).then(function(res) {
                   $window.localStorage['cartlength']=0;

@@ -551,7 +551,14 @@ $scope.updatestatus=function(status,data)
   SendFactory.seturl('users/displayusers','GET','');
   SendFactory.send()
   .then(function success(response){
+    if(response.data!='error')
+    {
       $scope.user=response.data;
+    }
+    else
+    {
+      $scope.user=[];
+    }
     },function failure(response){
         console.log("failuressss");
     });
@@ -566,7 +573,14 @@ $scope.updatestatus=function(status,data)
   SendFactory.seturl('users/displayemployee','GET','');
   SendFactory.send()
   .then(function success(response){
+    if(response.data!='error')
+    {
       $scope.employee=response.data;
+    }
+    else
+    {
+      $scope.employee=[];
+    }
     },function failure(response){
         console.log("failuressss");
     });
@@ -623,5 +637,96 @@ var uibModalInstance = $uibModal.open({
 });
 };
 /************************************************************************/
+$scope.addexecutive = function (data) {
+
+ var uibModalInstance = $uibModal.open({
+   backdrop: 'static',
+   keyboard: false,
+   templateUrl: './views/admin/addemployee.html',
+   controller: [
+       '$scope', '$uibModalInstance',function($scope, $uibModalInstance) {
+           $scope.executive={};
+           $scope.addemployeedetails = function() {
+             console.log( $scope.executive);
+
+           SendFactory.seturl('users/addemployee','POST',$scope.executive);
+           SendFactory.send()
+           .then(function success(response){
+                 if(response.data=='success')
+                 {
+                    $rootScope.getemployee();
+                    $uibModalInstance.close(false);
+                 }
+                 else
+                 {
+                   ngDialog.openConfirm({
+                   template: '<p>'+response.data+'</p>',
+                   plain: true,
+                   className: 'ngdialog-theme-default ngdialog-cart-theme',
+                   showClose: true,
+                   appendTo: 'div[ui-view]',
+                   closeByDocument: false
+
+                   }).then(function (success) {
+                       // Success logic here
+                   }, function (error) {
+                       // Error logic here
+                   });
+                 }
+             },function failure(response){
+                 console.log("failuressss");
+             });
+         };
+           $scope.close = function() {
+               $uibModalInstance.close(false);
+           };
+       }
+   ]
+ });
+};
+/***********************************************************/
+}])
+/************************************************************************************************************************************/
+.controller('ExecCtrl',['$scope','$rootScope','$state','$uibModal','SendFactory','ngDialog',function ($scope,$rootScope,$state,$uibModal,SendFactory,ngDialog) {
+
+  $scope.filterdata={};
+
+  $scope.getorders=function()
+  {
+  SendFactory.seturl('products/displayorders','GET','');
+  SendFactory.send()
+  .then(function success(response){
+    if(response.data!='error')
+    {
+      $scope.orders=response.data;
+      console.log(response.data);
+    }
+    else
+    {
+      $scope.orders=[];
+    }
+    },function failure(response){
+        console.log("failuressss");
+    });
+  };
+
+  $scope.getorders();
+
+  //var socket=io.connect();
+  //socket.on('notification',function(data){
+  //  client.on("orderplaced",function(data){
+      //console.log(data);
+      //$scope.getorders();
+    //});
+
+
+
+//  });
+var socket = io.connect('http://localhost:3000/');
+socket.on('orderplaced', function (data) {
+  console.log(data);
+  //socket.emit('my other event', { my: 'data' });
+});
+
 
 }])

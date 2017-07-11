@@ -40,12 +40,30 @@
               controller:'UserCtrl'
             })
 
+            .state('executive', {
+                 url: '/executive',
+                 abstract: true,
+                 templateUrl: './views/executive/executive_home.html'
+             })
+
+             .state('executive.dashboard', {
+                  url: '/dashboard',
+                  templateUrl:'./views/executive/dashboard.html',
+                controller:'ExecCtrl'
+              })
+
+              .state('executive.orders', {
+                   url: '/manageorders',
+                   templateUrl:'./views/executive/order_mgmt.html',
+                 controller:'ExecCtrl'
+               })
+
 
          // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
          .state('about', {
              // we'll get to this in a bit
          });
 
-$urlRouterProvider.otherwise('admin/pdt_management');
+$urlRouterProvider.otherwise('executive/dashboard');
 
 });
