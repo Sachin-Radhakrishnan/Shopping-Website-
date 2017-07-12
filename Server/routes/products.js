@@ -200,23 +200,32 @@ router.post('/altercart', function(req, res,next) {
 /*********************************************************************************************************************************/
 
 /*****************************************************************************************************************************************************/
-router.get('/displayorders', function(req, res) {
+router.get('/displayorders', function(req, res,next) {
+auth.passport.authenticate('jwt', function(err, user, info) {
+  if(user!=false)
+  {
+    var sql="SELECT (select email from users where user_id=ord.user_id) as email,(select username from  users where user_id=ord.user_id) as username,ord.order_id,ord.status,ord.date_added,ord.total FROM shippingDetails as s INNER JOIN orders as ord ON s.shipping_id=ord.shipping_id ";
+    db.select(sql,function(result){
+      if(result!='[]')
+      {
+      var result1 = JSON.parse(result);
+      res.json(result1);
+      res.end();
+      }
+      else
+      {
+        res.end("error");
+      }
+    });
+}
+else
+{
+   res.json("invalid credentials");
+}
 
-  var sql="SELECT (select email from users where user_id=ord.user_id) as email,(select username from  users where user_id=ord.user_id) as username,ord.order_id,ord.status,ord.date_added,ord.total FROM shippingDetails as s INNER JOIN orders as ord ON s.shipping_id=ord.shipping_id ";
-  db.select(sql,function(result){
-    if(result!='[]')
-    {
-    var result1 = JSON.parse(result);
-    res.json(result1);
-    res.end();
-    }
-    else
-    {
-      res.end("error");
-    }
-  });
+  })(req, res, next);
+
 });
-
 /************************************************* PRODUCT mANAGEMENT ********************************************************************************/
 router.get('/displayproducts', function(req, res) {
 

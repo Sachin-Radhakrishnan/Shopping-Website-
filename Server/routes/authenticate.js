@@ -20,7 +20,7 @@ passport.use(new JwtStrategy(options,function(jwt_payload,done){
 console.log('payload received', jwt_payload);
 var result1=[];
 var user=[];
-var sql="select * from users where username="+db.connection.escape(jwt_payload.username)+"and email="+db.connection.escape(jwt_payload.email);
+var sql="select * from users where email="+db.connection.escape(jwt_payload.email)+" and status='active'";
 db.select(sql,function(result){
  if (result!='[]')
  {

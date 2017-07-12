@@ -137,5 +137,33 @@ db.select(sql,function(result){
 });
 /********************************************/
 });
+/*************************************************************************************************************************/
+router.post('/orderedproducts', function(req, res ,next) {
+auth.passport.authenticate('jwt', function(err, user, info) {
+if(user!=false)
+{
+    var sql="select pdt.product_name,o.total,o.status,o.date_added,o.order_id from orders as o inner join ordered_products as p on o.order_id=p.order_id  inner join product as pdt on p.product_id=pdt.product_id  where o.user_id="+user[0].user_id+"";
+    console.log(sql);
+    db.select(sql,function(result){
+      if(result!='[]')
+      {
+      var result1 = JSON.parse(result);
+      res.json(result1);
+      res.end();
+      }
+      else
+      {
+        res.end("error");
+      }
+    });
+}
+else
+{
+    res.json("invalid credentials");
+}
+
+})(req, res, next);
+/*****************************************/
+});
 
 module.exports = router;

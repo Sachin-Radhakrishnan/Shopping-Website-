@@ -1,0 +1,106 @@
+<br><br>
+<div class="row shop-tracking-status">
+
+    <div class="col-md-12">
+        <div class="well">
+
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label for="inputOrderTrackingID" class="col-sm-3 control-label">Select a date</label>
+                        <div class="col-sm-2">
+                          <select style="width:350px;" class="form-control" id="date_added" ng-model="filterdata.date_added" name="date_added" required >
+                          <option value="" ng-disabled="true">---Please select---</option>
+                          <option ng-repeat="x in ordered_products" ng-show=" ordered_products[$index - 1].date_added  != x.date_added" value="{{x.date_added}}">{{x.date_added}}</option>
+                          </select>
+                        </div>
+                </div>
+            </div>
+
+            <h4 ng-show="(ordered_products| filter:filterdata).length>0">Your order status:</h4>
+
+            <ul class="list-group">
+
+                <li class="list-group-item" ng-repeat="x in ordered_products| filter:filterdata">
+                   <button type="button" class="btn btn-default btn-danger btn-sm" ng-show="(x.status=='pending')?true:false" >
+
+                    {{$index +1}}</button> <br><br>
+                    <span class="prefix" style="color:#01579b"><b>Product</b></span>
+                    <span class="label label-success">{{x.product_name}}</span> <br><br>
+                    <span class="prefix" style="color:#01579b"><b>Amount</b></span>
+                    <span class="label label-success">{{x.total}}</span>  <br><br>
+                <!--    <span class="prefix" style="padding-left:400px;color:#01579b"><b>Status</b></span>
+                    <button type="button" class="btn btn-default btn-success btn-sm" ng-show="(x.status=='shipped')?true:false" >
+                    <i class="fa fa-check-square-o"  aria-hidden="true"></i>
+                    Shipped</button>
+
+                    <button type="button" class="btn btn-default btn-danger btn-sm" ng-show="(x.status=='pending')?true:false" >
+                    <i class="fa fa-flag-checkered" aria-hidden="true"></i>
+                     Pending</button> -->
+
+                     <div class="order-status">
+
+                             <div class="order-status-timeline">
+
+                                 <div class="order-status-timeline-completion c3"></div>
+                             </div>
+
+                     <div class="image-order-status image-order-status-new active img-circle">
+                         <span class="status">Accepted</span>
+                         <div class="icon"></div>
+                     </div>
+
+                     <div class="image-order-status image-order-status-active active img-circle">
+                         <span class="status">In progress</span>
+                         <div class="icon"></div>
+                     </div>
+
+                     <div class="image-order-status image-order-status-intransit active img-circle"  ng-show="(x.status=='shipped')?true:false">
+                         <span class="status">Shipped</span>
+                         <div class="icon"></div>
+                     </div>
+
+                     <div class="image-order-status image-order-status-completed  img-circle" ng-show="(x.status=='shipped')?true:false">
+                         <div class="icon"></div>
+                     </div>
+
+                  </div>
+
+                </li>
+
+            </ul>
+
+        <!--  <div class="order-status">
+
+                <div class="order-status-timeline">
+
+                    <div class="order-status-timeline-completion c3"></div>
+                </div>
+
+                <div class="image-order-status image-order-status-new active img-circle">
+                    <span class="status">Accepted</span>
+                    <div class="icon"></div>
+                </div>
+
+                <div class="image-order-status image-order-status-active active img-circle">
+                    <span class="status">In progress</span>
+                    <div class="icon"></div>
+                </div>
+                <div class="image-order-status image-order-status-intransit  img-circle"  ng-show="(x.status=='shipped')?true:false">
+                    <span class="status">Shipped</span>
+                    <div class="icon"></div>
+                </div>
+
+                <div class="image-order-status image-order-status-delivered img-circle"  ng-show="(x.status=='shipped')?true:false" >
+                    <span class="status">Delivered</span>
+                    <div class="icon"></div>
+                </div>
+
+                <div class="image-order-status image-order-status-completed  img-circle" ng-show="(x.status=='shipped')?true:false">
+                    <div class="icon"></div>
+                </div>
+
+            </div> -->
+        </div>
+    </div>
+
+</div>

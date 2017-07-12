@@ -11,10 +11,10 @@
                         <ion-item>
                          <div class="item-icon-left">
                              <i class="icon ion-person"></i>
-                             <input type="text" name="username" ng-model="login.username" placeholder="Enter a username " ng-pattern="/(?=^.{6,10}$)^[a-zA-Z][a-zA-Z0-9]*[._-]?[a-zA-Z0-9]+$/" maxlength="10" required>
-                             <!--validation part-->
-                             <h5 style="color:red" ng-show="Form.LoginForm.username.$error.required && !Form.LoginForm.username.$pristine">* Required Field</h5>
-                             <h5 style="color:red" ng-show="!Form.LoginForm.username.$error.required && Form.LoginForm.username.$error.pattern && !Form.LoginForm.username.$pristine">** Invalid Format</h5>
+                             <input type="email" name="email" ng-model="login.username" placeholder="Enter your email" required>
+                             <!--validation part-- ng-model intentionally kept as login.username -->
+                             <h5 style="color:red"  ng-show="Form.LoginForm.email.$error.required && !Form.LoginForm.email.$pristine">* Required Field </h5>
+                             <h5 style="color:red" ng-show="!Form.LoginForm.email.$error.required && Form.LoginForm.email.$invalid && !Form.LoginForm.email.$pristine">** Invalid Format</h5>
                          </div>
                         </ion-item>
 

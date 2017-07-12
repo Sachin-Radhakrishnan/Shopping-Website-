@@ -160,7 +160,7 @@ angular.module('starter.controllers', [])
              $scope.loadMore = function() {
                  if ($scope.length > $scope.numberOfItemsToDisplay)
                      $scope.numberOfItemsToDisplay +=1;
-                     $scope.$broadcast('scroll.infiniteScrollComplete'); // load 20 more items
+                     $scope.$broadcast('scroll.infiniteScrollComplete'); 
                      //done(); // need to call this when finish loading more data
                  };
            }

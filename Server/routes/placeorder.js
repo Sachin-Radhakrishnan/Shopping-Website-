@@ -63,18 +63,20 @@ router.post('/', function(req, res,next) {
                      var result1 = JSON.parse(result);
                      var sql4="insert into orders(user_id,shipping_id,total,date_added,status) values ("+user[0].user_id+","+result1[0].id+","+req.body.grandtotal+",'"+date+"','pending')";
                      db.insert(sql4);
-                  /*   io.sockets.on('connection', function(socket) {
-
-                       //socket.on("emited",function(){
-                         console.log("hell o");
-                         //socket.emit("test","okay recievd");
-                      // });
-
-                    });*/
-
-                   res.json("success");
-
+                     var sql5="select max(order_id) as id from orders";
+                     db.select(sql5,function(result){
+                     var result1 = JSON.parse(result);
+                     for(var i=0;i<req.body.pdt_ids.length;i++)
+                       {
+                         var sql6="insert into ordered_products (order_id,product_id) values ("+result1[0].id+","+req.body.pdt_ids[i].product_id+")" ;
+                         console.log(sql6);
+                         db.insert(sql6);
+                       }
+                       res.json("success");
                      });
+                   });
+
+
 
                    }
                 }

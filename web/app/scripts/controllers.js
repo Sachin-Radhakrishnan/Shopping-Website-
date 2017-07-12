@@ -698,7 +698,7 @@ $scope.addexecutive = function (data) {
   SendFactory.seturl('products/displayorders','GET','');
   SendFactory.send()
   .then(function success(response){
-    if(response.data!='error')
+    if(response.data!='error' && response.data!="invalid credentials")
     {
       $scope.orders=response.data;
       console.log(response.data);
@@ -729,10 +729,18 @@ $scope.addexecutive = function (data) {
       $scope.data = [$scope.shipped, $scope.pending];
       console.log($scope.data);
     }
+    else if(response.data=="invalid credentials")
+    {
+      $scope.orders=[];
+      $state.transitionTo('home', {}, { reload: true, inherit: true, notify: true });
+
+    }
     else
     {
       $scope.orders=[];
+
     }
+
     },function failure(response){
         console.log("failuressss");
     });
@@ -746,61 +754,120 @@ $scope.addexecutive = function (data) {
 
 }])
 /***************************************************************************************************************************/
-.controller('LoginController',['$scope','$state','SendFactory','$window',function($scope,$state,SendFactory,$window){
+.controller('LoginController',['$scope','$state','SendFactory','ngDialog','$window',function($scope,$state,SendFactory,ngDialog,$window){
 
   $scope.login={};
   $scope.Form={};
-  $scope.showAlert = function() {
-
-  var alertPopup = $ionicPopup.alert({
-  title: 'Instructions',
-  template: 'Username must contain only alphanumeric characters or <br> single hyphen/underscore,<br> & must begin or end with an alphabet',
-
-  });
-  alertPopup.then(function(res) {
-  });
-
-  };
   //on form submission
+  $window.localStorage.removeItem('token');
   $scope.OnSubmission=function(){
-        //for showing the server delay
-        $ionicLoading.show({
-                 content: 'Loading',
-                 animation: 'fade-in',
-                 showBackdrop: true,
-                 maxWidth: 200,
-                 showDelay: 0
-               });
 
         SendFactory.seturl('login','POST',$scope.login);
         SendFactory.send()
         .then(function success(response)
         {
-          console.log(response);
-          $window.localStorage['token']=response.data.token;
-          console.log($window.localStorage['token']);
+              console.log(response);
+              $window.localStorage['token']=response.data.token;
+              console.log($window.localStorage['token']);
 
-          $ionicLoading.hide();
-          //clear the form
-          $scope.login={};
-          $scope.Form.LoginForm.$setPristine();
-          $scope.Form.LoginForm.$setUntouched();
-          $state.transitionTo('app.products', {}, { reload: true, inherit: true, notify: true });
 
+              //clear the form
+              $scope.login={};
+              $scope.Form.LoginForm.$setPristine();
+              $scope.Form.LoginForm.$setUntouched();
+              if(response.data.usertype=="executive")
+                $state.transitionTo('executive.dashboard', {}, { reload: true, inherit: true, notify: true });
+              else if(response.data.usertype=="executive")
+              {
+                $state.transitionTo('admin.products', {}, { reload: true, inherit: true, notify: true });
+              }
+              else
+              {
+                $state.transitionTo('user.orders', {}, { reload: true, inherit: true, notify: true });
+              }
 
         },function failure(response)
         {
 
-          $window.localStorage.removeItem('token');
-          $ionicLoading.hide();
-          $ionicLoading.show({
-              template: 'Unauthorized User',
-              scope: $scope
-            });
-           $timeout(function() {
-               $ionicLoading.hide();
-           }, 2000);
+             $window.localStorage.removeItem('token');
+             ngDialog.openConfirm({
+             template: '<p>'+response.data.message+'</p>',
+             plain: true,
+             className: 'ngdialog-theme-default ngdialog-cart-theme',
+             showClose: true,
+             appendTo: 'div[ui-view]',
+             closeByDocument: false
+
+             }).then(function (success) {
+                 // Success logic here
+             }, function (error) {
+                 // Error logic here
+             });
+
+
         });
   };
+
+}])
+/***********************************************************************************************************/
+.controller('UserCtrl',['$scope','$state','SendFactory','ngDialog','$window',function($scope,$state,SendFactory,ngDialog,$window){
+  $scope.filterdata={date_added:"abc"};
+  $scope.OnSubmission=function(){
+        //$scope
+        SendFactory.seturl('users/orderedproducts','POST');
+        SendFactory.send()
+        .then(function success(response)
+        {
+              console.log(response);
+              if(response.data!='error' && response.data!="invalid credentials")
+              {
+                $scope.ordered_products=response.data;
+              }
+              else if(response.data=="invalid credentials")
+              {
+                $scope.ordered_products=[];
+                $state.transitionTo('home', {}, { reload: true, inherit: true, notify: true });
+
+              }
+              else
+              {
+               $scope.ordered_products=[];
+
+              }
+              /*
+              if(response.data.usertype=="executive")
+                $state.transitionTo('executive.dashboard', {}, { reload: true, inherit: true, notify: true });
+              else if(response.data.usertype=="executive")
+              {
+                $state.transitionTo('admin.products', {}, { reload: true, inherit: true, notify: true });
+              }
+              else
+              {
+                $state.transitionTo('app.products', {}, { reload: true, inherit: true, notify: true });
+              } */
+
+        },function failure(response)
+        {
+              $scope.ordered_products=[];
+            /* $window.localStorage.removeItem('token');
+             ngDialog.openConfirm({
+             template: '<p>'+response.data.message+'</p>',
+             plain: true,
+             className: 'ngdialog-theme-default ngdialog-cart-theme',
+             showClose: true,
+             appendTo: 'div[ui-view]',
+             closeByDocument: false
+
+             }).then(function (success) {
+                 // Success logic here
+             }, function (error) {
+                 // Error logic here
+             });
+
+*/
+        });
+  };
+
+$scope.OnSubmission();
 
 }])
