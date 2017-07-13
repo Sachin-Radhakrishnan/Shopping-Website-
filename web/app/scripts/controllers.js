@@ -871,3 +871,112 @@ $scope.addexecutive = function (data) {
 $scope.OnSubmission();
 
 }])
+/****************************************************************************************************************/
+.controller('Password-controller',['$scope','$state','$window','ngDialog','SendFactory','$location',function($scope,$state,$window,ngDialog,SendFactory,$location){
+$scope.pwd={password:"",password1:"",show:false};
+//password mismatch checker
+$scope.CheckPassword=function(){
+if( !$scope.PwdForm.password1.$error.required && !$scope.PwdForm.password2.$error.required && ($scope.pwd.password1 != $scope.pwd.password2))
+{
+  $scope.pwd.show=true;
+  $scope.PwdForm.$invalid=true;
+}
+else
+{
+$scope.pwd.show=false;
+$scope.PwdForm.$invalid=false;
+}
+
+if(!$scope.pwd.password1)
+{
+$scope.pwd.password2="";
+$scope.pwd.show=false;
+$scope.PwdForm.password2.$setPristine();
+}
+
+if( $scope.PwdForm.password1.$error.required ||  $scope.PwdForm.password2.$error.required || $scope.PwdForm.password.$error.required)
+$scope.PwdForm.$invalid=true;
+};
+/**************************************************/
+//on submit function
+
+
+
+$scope.onsubmitted=function()
+{
+  console.log("entered0");
+  console.log($scope.pwd);
+  SendFactory.seturl('users/changepwd','POST',$scope.pwd);
+  SendFactory.send()
+  .then(function success(response)
+  {
+        console.log(response);
+
+        if(response.data!='error' && response.data!="invalid credentials")
+        {
+          $state.transitionTo('home', {}, { reload: true, inherit: true, notify: true });
+        }
+        else if(response.data=="invalid credentials" || response.data=='error')
+        {
+          ngDialog.openConfirm({
+          template: '<p>'+"Incorrect Credentials"+'</p>',
+          plain: true,
+          className: 'ngdialog-theme-default ngdialog-cart-theme',
+          showClose: true,
+          appendTo: 'div[ui-view]',
+          closeByDocument: false
+
+          }).then(function (success) {
+              // Success logic here
+          }, function (error) {
+              // Error logic here
+          });
+
+        }
+        else
+        {
+          ngDialog.openConfirm({
+          template: '<p>'+"Password Changed Successfully"+'</p>',
+          plain: true,
+          className: 'ngdialog-theme-default ngdialog-cart-theme',
+          showClose: true,
+          appendTo: 'div[ui-view]',
+          closeByDocument: false
+
+          }).then(function (success) {
+              // Success logic here
+          }, function (error) {
+              // Error logic here
+          });
+          $state.transitionTo('user.orders', {}, { reload: true, inherit: true, notify: true });
+
+        }
+
+
+  },function failure(response)
+  {
+
+       $window.localStorage.removeItem('token');
+       ngDialog.openConfirm({
+       template: '<p>'+"Network Error"+'</p>',
+       plain: true,
+       className: 'ngdialog-theme-default ngdialog-cart-theme',
+       showClose: true,
+       appendTo: 'div[ui-view]',
+       closeByDocument: false
+
+       }).then(function (success) {
+           // Success logic here
+       }, function (error) {
+           // Error logic here
+       });
+
+
+  });
+
+//
+};
+
+
+/**************************************************/
+}]);

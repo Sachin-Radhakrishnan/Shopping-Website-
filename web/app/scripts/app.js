@@ -20,6 +20,7 @@
               controller: "LoginController"
           })
 
+
         .state('admin', {
              url: '/admin',
              abstract: true,
@@ -73,6 +74,18 @@
                      templateUrl:'./views/user/orders.html',
                      controller:'UserCtrl'
                  })
+
+                 .state('user.history', {
+                      url: '/history',
+                      templateUrl:'./views/user/history.html',
+                      controller:'UserCtrl'
+                  })
+
+                  .state('user.pwd', {
+                       url: '/history',
+                       templateUrl:'./views/changepwd.html',
+                       controller:'Password-controller'
+                   })
 
 
          // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================

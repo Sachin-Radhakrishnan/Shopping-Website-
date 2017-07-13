@@ -142,7 +142,7 @@ router.post('/orderedproducts', function(req, res ,next) {
 auth.passport.authenticate('jwt', function(err, user, info) {
 if(user!=false)
 {
-    var sql="select pdt.product_name,o.total,o.status,o.date_added,o.order_id from orders as o inner join ordered_products as p on o.order_id=p.order_id  inner join product as pdt on p.product_id=pdt.product_id  where o.user_id="+user[0].user_id+"";
+    var sql="select pdt.product_name,o.total,o.status,o.date_added,o.order_id from orders as o inner join ordered_products as p on o.order_id=p.order_id  inner join product as pdt on p.product_id=pdt.product_id  where o.user_id="+user[0].user_id+" order by o.date_added desc ";
     console.log(sql);
     db.select(sql,function(result){
       if(result!='[]')
@@ -150,6 +150,52 @@ if(user!=false)
       var result1 = JSON.parse(result);
       res.json(result1);
       res.end();
+      }
+      else
+      {
+        res.end("error");
+      }
+    });
+}
+else
+{
+    res.json("invalid credentials");
+}
+
+})(req, res, next);
+/*****************************************/
+});
+
+/**********************************************************************************************************************************/
+router.post('/changepwd', function(req, res ,next) {
+auth.passport.authenticate('jwt', function(err, user, info) {
+if(user!=false)
+{
+    var sql="select * from users where user_id="+user[0].user_id+" ";
+    console.log(sql);
+    db.select(sql,function(result){
+      console.log(result);
+      if(result!='[]')
+      {
+        var result1=JSON.parse(result);
+        if(passwordHash.verify(req.body.password, result1[0].password))
+        {
+          var password = generator.generate({
+              length: 10,
+              numbers: true
+          });
+          var hashedPassword = passwordHash.generate(req.body.password1);
+          var sql="update users set password='"+hashedPassword+"' where user_id="+user[0].user_id+" ";
+          db.update(sql);
+          res.end("success");
+        }
+        else
+        {
+          res.json("error");
+        }
+
+
+
       }
       else
       {
