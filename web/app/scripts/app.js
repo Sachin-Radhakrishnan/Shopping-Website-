@@ -24,7 +24,7 @@
         .state('admin', {
              url: '/admin',
              abstract: true,
-             templateUrl: './views/user/home.html'
+             templateUrl: './views/admin/admin_home.html'
          })
 
          .state('admin.products', {
@@ -81,6 +81,14 @@
                       controller:'UserCtrl'
                   })
 
+            /*      .state('user.history', {
+                       url: '/history',
+                       templateUrl:'../views/fileupload.html',
+                       controller:'uploadCtrl'
+                   })*/
+
+
+
                   .state('user.pwd', {
                        url: '/history',
                        templateUrl:'./views/changepwd.html',
@@ -93,6 +101,6 @@
              // we'll get to this in a bit
          });
 
-$urlRouterProvider.otherwise('/use/vieworders');
+$urlRouterProvider.otherwise('/home');
 
 });

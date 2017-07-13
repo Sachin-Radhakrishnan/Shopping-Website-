@@ -46,11 +46,40 @@ angular.module('starter.controllers', [])
 
 })
 /********************************************************************************************/
+.controller('StartCtrl', function ($scope, $ionicLoading,$timeout,$state) {
+
+       //$state.transitionTo('start', {}, { reload: true, inherit: true, notify: true });
+
+  /*     $ionicLoading.show({
+           template: 'Welcome',
+           scope: $scope
+         }); */
+
+       $timeout(function() {
+            // $ionicLoading.hide();
+             $state.go('app.products');
+
+         }, 3000);
+
+
+
+})
+/*******************************************************************************************/
 //controller for the login function
-.controller('LoginController',['$scope','$state','SendFactory','$ionicLoading','$ionicPopup','$timeout','$window',function($scope,$state,SendFactory,$ionicLoading,$ionicPopup,$timeout,$window){
+.controller('LoginController',['$scope','$state','SendFactory','$ionicConfig','$ionicHistory','$ionicLoading','$ionicPopup','$timeout','$window',function($scope,$state,SendFactory,$ionicConfig,$ionicHistory,$ionicLoading,$ionicPopup,$timeout,$window){
 
   $scope.login={};
   $scope.Form={};
+/*
+  if($window.localStorage['token']!=null)
+  {
+
+    $ionicConfig.views.transition('none');
+    $state.transitionTo('app.products', {}, {  });
+  }
+
+ */
+
   $scope.showAlert = function() {
 
   var alertPopup = $ionicPopup.alert({
@@ -160,7 +189,7 @@ angular.module('starter.controllers', [])
              $scope.loadMore = function() {
                  if ($scope.length > $scope.numberOfItemsToDisplay)
                      $scope.numberOfItemsToDisplay +=1;
-                     $scope.$broadcast('scroll.infiniteScrollComplete'); 
+                     $scope.$broadcast('scroll.infiniteScrollComplete');
                      //done(); // need to call this when finish loading more data
                  };
            }
@@ -210,10 +239,13 @@ angular.module('starter.controllers', [])
                  $scope.products="";
                  $scope.showsearch=false;
                  $scope.showlogo=true;
+                 $state.transitionTo('app.products', {},{reload: true, inherit: true, notify: true });
+
                });
                //adding an item increases cart count
                if(response.data=='Item added to your cart')
                  $window.localStorage['cartlength']=parseInt($window.localStorage['cartlength'])+1;
+
 
             }
             else
@@ -291,36 +323,68 @@ angular.module('starter.controllers', [])
   {
 
         $scope.data={action:state,id:pdtid,quantity:quantity};
-        SendFactory.seturl('products/altercart','POST',$scope.data);
-        SendFactory.send()
-        .then(function success(response){
-           console.log(response);
-           if(response.data=='success')
-           {
-            $scope.movetocart();
-           }
 
-           else
-           {
-             $ionicPopup.alert({
-                title: 'Online Shopping site',
-                template: 'Sorry...The product is out off stock....',
-                okText:'Okay!'
-              });
-           }
+        if(state=='delete')
+        {
 
-         },function failure(response){
-           $ionicLoading.hide();
-           $ionicLoading.show({
-               template: 'Network Error',
-               scope: $scope
-             });
-            $timeout(function() {
-                $ionicLoading.hide();
-            }, 2000);
-           $ionicConfig.views.transition('none');
-           $state.transitionTo('app.products', {},{reload: true, inherit: true, notify: true });
-        });
+          var confirmPopup = $ionicPopup.confirm({
+            title: 'Online Shopping site',
+            template: 'Are you sure you want to delete ?'
+          });
+
+          confirmPopup.then(function(res) {
+            if(res) {
+              $scope.helpme($scope.data);
+            } else {
+
+            }
+          });
+
+
+        }
+
+        else
+        {
+             $scope.helpme($scope.data);
+        }
+
+
+  };
+
+  //helper for above
+  $scope.helpme=function(data){
+
+    SendFactory.seturl('products/altercart','POST',data);
+    SendFactory.send()
+    .then(function success(response){
+       console.log(response);
+       if(response.data=='success')
+       {
+        $scope.movetocart();
+       }
+
+       else
+       {
+         $ionicPopup.alert({
+            title: 'Online Shopping site',
+            template: 'Sorry...The quantity is beyond the available stock....',
+            okText:'Okay!'
+          });
+       }
+
+     },function failure(response){
+       $ionicLoading.hide();
+       $ionicLoading.show({
+           template: 'Network Error',
+           scope: $scope
+         });
+        $timeout(function() {
+            $ionicLoading.hide();
+        }, 2000);
+       $ionicConfig.views.transition('none');
+       $state.transitionTo('app.products', {},{reload: true, inherit: true, notify: true });
+    });
+
 
   };
 
@@ -610,5 +674,18 @@ $scope.OnSubmission=function(){
                 });
             }
         };
-    }]);
+    }])
 /*********************************************************************************************/
+.directive('myEnter', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.myEnter);
+                });
+
+                event.preventDefault();
+            }
+        });
+    };
+});

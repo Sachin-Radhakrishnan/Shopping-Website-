@@ -36,6 +36,7 @@ var login = require('./routes/login');
 var category = require('./routes/addcategory');
 var products = require('./routes/products');
 var placeorder = require('./routes/placeorder');
+var upload=require('./routes/fileupload');
 //middle ware section
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -49,6 +50,7 @@ app.use('/login', login);
 app.use('/category', category);
 app.use('/products', products);
 app.use('/placeorder', placeorder);
+app.use('/upload', upload);
 app.get('/dummy',function(req,res){res.end("hai");});
 
 

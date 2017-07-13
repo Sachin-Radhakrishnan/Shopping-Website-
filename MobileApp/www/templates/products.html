@@ -1,4 +1,4 @@
-<ion-view view-title="Products" cache="false">
+<ion-view  view-title="Products" cache="false">
 
   <ion-nav-buttons side="right">
       <a href="#/app/products" class="button  button-icon ion-android-home"></a>
@@ -15,7 +15,7 @@
 
         <label class="item-input-wrapper">
          <i class="icon ion-search placeholder-icon"></i>
-        <input type="text" placeholder="Search" ng-model="searchform.search">
+        <input type="text" placeholder="Search" ng-model="searchform.search" my-enter="onsearchpress()">
         </label>
 
         <button ng-click="onsearchpress()" class="button button-positive button-small" ng-show="searchform.search.length">Search

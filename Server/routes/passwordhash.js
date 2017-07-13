@@ -20,5 +20,12 @@ var hashedPassword = passwordHash.generate('Sachin@123');
 
 
 console.log(hashedPassword);
-//console.log(passwordHash.verify('password123', hashedPassword)); // true
-//console.log(passwordHash.verify(password, hashedPassword));
+
+var hashedPassword = passwordHash.generate('Sachin@123');
+
+
+console.log(hashedPassword);
+console.log(passwordHash.verify('password123', 'sha1$003eb0dc$1$71a51150ced8c1e01b63a5be4d5a8f10e8eba3fb')); // true
+console.log(passwordHash.verify('Sachin@123', 'sha1$003eb0dc$1$71a51150ced8c1e01b63a5be4d5a8f10e8eba3fb'));
+Sachin@123
+sha1$f1f701c5$1$c7c5496b3daad423f2eeb32d4dae27a83bef868b

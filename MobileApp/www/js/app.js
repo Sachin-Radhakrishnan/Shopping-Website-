@@ -39,6 +39,13 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.service'])
     controller: 'AppCtrl'
   })
 
+  .state('start', {
+  url: '/start',
+   cache: false,
+  templateUrl: 'templates/start.html',
+  controller: 'StartCtrl'
+  })
+
   .state('app.search', {
     url: '/search',
     views: {
@@ -130,5 +137,5 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.service'])
   }
 });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/signup');
+  $urlRouterProvider.otherwise('/start');
 });

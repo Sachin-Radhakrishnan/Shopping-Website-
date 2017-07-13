@@ -67,7 +67,7 @@ router.post('/addtocart', function(req, res,next) {
                       }
                       else
                       {
-                        res.json("Already added to cart");
+                        res.json("This item already exists in your  cart");
                       }
                  }); //sql closing
              }

@@ -7,7 +7,7 @@
  * # MainCtrl
  * Controller of the webDevelopApp
  */
- angular.module('starter.controllers', ['angularUtils.directives.dirPagination','ui.bootstrap','ngDialog','chart.js'])
+ angular.module('starter.controllers', ['angularUtils.directives.dirPagination','ui.bootstrap','ngDialog','chart.js','ngFileUpload'])
 
 .controller('MainCtrl',['$scope','$rootScope','$uibModal','SendFactory','ngDialog', function ($scope,$rootScope,$uibModal,SendFactory,ngDialog) {
     $scope.remove={};
@@ -777,7 +777,7 @@ $scope.addexecutive = function (data) {
               $scope.Form.LoginForm.$setUntouched();
               if(response.data.usertype=="executive")
                 $state.transitionTo('executive.dashboard', {}, { reload: true, inherit: true, notify: true });
-              else if(response.data.usertype=="executive")
+              else if(response.data.usertype=="admin")
               {
                 $state.transitionTo('admin.products', {}, { reload: true, inherit: true, notify: true });
               }
@@ -979,4 +979,65 @@ $scope.onsubmitted=function()
 
 
 /**************************************************/
-}]);
+}])
+
+.controller('uploadCtrl',['Upload','$scope','baseUrl','$window',function(Upload,$scope,baseUrl,$window){
+/*$scope.up={};
+       $scope.submit = function(){ //function to call on form submit'baseUrl'
+         console.log("hiii");
+           if ($scope.up.upload_form.file.$valid && $scope.file) { //check if from is valid
+              console.log($scope.file);
+               $scope.upload($scope.file); //call upload function
+           }
+       }
+       $scope.upload = function (file) {
+           Upload.upload({
+               url: 'http://localhost:3000/upload', //webAPI exposed to upload the file
+               data:{file:file} //pass file as data, should be user ng-model
+           }).then(function (resp) { //upload function returns a promise
+               if(resp.data.error_code === 0){ //validate success
+                   $window.alert('Success ' + resp.config.data.file.name + 'uploaded. Response: ');
+               } else {
+                   $window.alert('an error occured');
+               }
+           }, function (resp) { //catch error
+               console.log('Error status: ' + resp.status);
+               $window.alert('Error status: ' + resp.status);
+           }, function (evt) {
+               console.log(evt);
+               var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+               console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+               $scope.progress = 'progress: ' + progressPercentage + '% '; // capture upload progress
+           });
+       };*/
+
+   $scope.submit = function() {
+      //console.log($scope.form.file);
+
+    //  console.log(baseUrl);
+
+   if ($scope.form.file.$valid && $scope.file) {
+    //console.log($scope.file);
+
+      $scope.upload($scope.file);
+     }
+   };
+
+   // upload on file select or drop
+   $scope.upload = function (file) {
+       Upload.upload({
+           url: baseUrl+"upload",
+           data: {file: file}
+       }).then(function (resp) {
+          console.log(resp);
+          // console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+       }, function (resp) {
+           //console.log('Error status: ' + resp.status);
+       }, function (evt) {
+           var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+           console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+       });
+   };
+
+
+   }]);

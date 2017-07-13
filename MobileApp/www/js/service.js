@@ -2,7 +2,7 @@
 
 angular.module('starter.service', ['ngResource'])
 
-.constant('baseUrl','http://localhost:3000/')
+.constant('baseUrl','http://ec2-13-126-111-40.ap-south-1.compute.amazonaws.com/')
 //factory for sending http requests to server
 .factory('SendFactory',['$http','baseUrl',function($http,baseUrl){
 var url1="",method="",data="";
