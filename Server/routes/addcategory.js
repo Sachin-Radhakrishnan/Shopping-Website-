@@ -19,7 +19,7 @@ router.get('/', function(req, res) {
 
      if(result!='[]')
      {
-         var sql1="select c.category_name ,c.category_id,s.subcategory_name ,s.subcategory_id  from `database`.category as c inner join `database`.subcategory as s on c.category_id=s.category_id where c.status='active' and s.status='active' order by s.subcategory_id,c.category_id ";
+         var sql1="select c.category_name ,c.category_id,s.subcategory_name ,s.subcategory_id  from category as c inner join subcategory as s on c.category_id=s.category_id where c.status='active' and s.status='active' order by s.subcategory_id,c.category_id ";
          db.select(sql1,function(result){
          var result1 = JSON.parse(result).slice(0);
          var obj={};
