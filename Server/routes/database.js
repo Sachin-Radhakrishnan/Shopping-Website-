@@ -2,11 +2,11 @@ var mysql = require('mysql');
 //configuration
 var con = mysql.createConnection({
   host: "localhost",
-  user: "root",/*
+  user: "root",
   password: "cgpucek@123",
-  database: "mydatabase" */
-  password: "password",
-  database: "database"
+  database: "mydatabase"
+/*  password: "password",
+  database: "database"*/
 });
 //
 exports.connection=con;
