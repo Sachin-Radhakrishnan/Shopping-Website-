@@ -19,7 +19,7 @@
 
      <ul class="list-group" ng-show="(ordered_products | filter:query).length > 0">
        <li class="list-group-item"  dir-paginate="x in ordered_products | filter:query | itemsPerPage: itemsperpage" >
-         <button type="button" class="btn btn-default btn-primary btn-sm" ng-show="(x.status=='pending')?true:false" >
+         <button type="button" class="btn btn-default btn-primary btn-sm" >
 
           {{$index +1}}</button>&nbsp;&nbsp;
          {{x.product_name}}

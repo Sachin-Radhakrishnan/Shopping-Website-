@@ -72,25 +72,29 @@
                 .state('user.orders', {
                      url: '/vieworders',
                      templateUrl:'./views/user/orders.html',
-                     controller:'UserCtrl'
+                     controller:'UserCtrl2'
                  })
 
                  .state('user.history', {
                       url: '/history',
                       templateUrl:'./views/user/history.html',
-                      controller:'UserCtrl'
+                      controller:'UserCtrl2'
                   })
 
             /*      .state('user.history', {
                        url: '/history',
                        templateUrl:'../views/fileupload.html',
                        controller:'uploadCtrl'
-                   })*/
-
+                   })
+*/                 .state('executive.pwd', {
+                       url: '/changepwd',
+                       templateUrl:'./views/changepwd.html',
+                       controller:'Password-controller'
+                   })
 
 
                   .state('user.pwd', {
-                       url: '/history',
+                       url: '/changepwd',
                        templateUrl:'./views/changepwd.html',
                        controller:'Password-controller'
                    })

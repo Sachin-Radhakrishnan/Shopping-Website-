@@ -45,7 +45,7 @@ db.select(sql1,function(result){
                   service: 'gmail',
                   auth: {
                     user: 'sachin.kurup02@gmail.com',
-                    pass: 'cgpucek@123'
+                    pass: 'anitharaj@123'
                   }
                 });
                 console.log(req.body.email);

@@ -545,7 +545,8 @@ $scope.updatestatus=function(status,data)
 }])
 /******************************************************User management*************************************************************************/
 .controller('UserCtrl',['$scope','$rootScope','$uibModal','SendFactory', 'ngDialog',function ($scope,$rootScope,$uibModal,SendFactory,ngDialog) {
-
+ $scope.query2="";
+  $scope.itemsperpage2;
   $rootScope.getusers=function()
   {
   SendFactory.seturl('users/displayusers','GET','');
@@ -713,7 +714,7 @@ $scope.addexecutive = function (data) {
       for(var i=0;i<$scope.orders.length;i++)
       {
 
-        if($scope.orders[i].status=="pending" && $scope.orders[i].date_added==$scope.date )
+        if($scope.orders[i].status=="pending")
         {
           console.log($scope.orders[i].status);
           $scope.pending++;
@@ -724,10 +725,11 @@ $scope.addexecutive = function (data) {
         }
 
       }
+      //console.log("kooi"+$scope.pending+""+$scope.shipped);
 
       $scope.labels = ["Shipped", "Pending"];
       $scope.data = [$scope.shipped, $scope.pending];
-      console.log($scope.data);
+      //console.log("hii"+$scope.data);
     }
     else if(response.data=="invalid credentials")
     {
@@ -752,6 +754,24 @@ $scope.addexecutive = function (data) {
     $scope.getorders();
     });
 
+  $scope.changeorderstatus=function(id,action)
+  {
+    console.log(id+action);
+    $scope.data12={order_id:id,action:action};
+    console.log($scope.data12);
+
+    SendFactory.seturl('users/changeorderstatus','POST',$scope.data12);
+    SendFactory.send()
+    .then(function success(response){
+
+         $scope.getorders();
+
+      },function failure(response){
+          console.log("failuressss");
+      });
+
+  };
+
 }])
 /***************************************************************************************************************************/
 .controller('LoginController',['$scope','$state','SendFactory','ngDialog','$window',function($scope,$state,SendFactory,ngDialog,$window){
@@ -759,6 +779,9 @@ $scope.addexecutive = function (data) {
   $scope.login={};
   $scope.Form={};
   //on form submission
+  $scope.$on('$locationChangeStart', function(event, next, current){
+                event.preventDefault();
+            });
   $window.localStorage.removeItem('token');
   $scope.OnSubmission=function(){
 
@@ -810,7 +833,7 @@ $scope.addexecutive = function (data) {
 
 }])
 /***********************************************************************************************************/
-.controller('UserCtrl',['$scope','$state','SendFactory','ngDialog','$window',function($scope,$state,SendFactory,ngDialog,$window){
+.controller('UserCtrl2',['$scope','$state','SendFactory','ngDialog','$window',function($scope,$state,SendFactory,ngDialog,$window){
   $scope.filterdata={date_added:"abc"};
   $scope.OnSubmission=function(){
         //$scope
@@ -948,7 +971,7 @@ $scope.onsubmitted=function()
           }, function (error) {
               // Error logic here
           });
-          $state.transitionTo('user.orders', {}, { reload: true, inherit: true, notify: true });
+          $state.transitionTo('home', {}, { reload: true, inherit: true, notify: true });
 
         }
 
@@ -1010,7 +1033,7 @@ $scope.onsubmitted=function()
                $scope.progress = 'progress: ' + progressPercentage + '% '; // capture upload progress
            });
        };*/
-
+  $scope.image = "/file-1499986187636.jpg";
    $scope.submit = function() {
       //console.log($scope.form.file);
 
@@ -1030,6 +1053,7 @@ $scope.onsubmitted=function()
            data: {file: file}
        }).then(function (resp) {
           console.log(resp);
+          //abc=resp.data;
           // console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
        }, function (resp) {
            //console.log('Error status: ' + resp.status);
@@ -1041,3 +1065,4 @@ $scope.onsubmitted=function()
 
 
    }]);
+/******************************************************************************************************************************/

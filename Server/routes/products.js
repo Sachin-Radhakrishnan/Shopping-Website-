@@ -204,7 +204,7 @@ router.get('/displayorders', function(req, res,next) {
 auth.passport.authenticate('jwt', function(err, user, info) {
   if(user!=false)
   {
-    var sql="SELECT (select email from users where user_id=ord.user_id) as email,(select username from  users where user_id=ord.user_id) as username,ord.order_id,ord.status,ord.date_added,ord.total FROM shippingDetails as s INNER JOIN orders as ord ON s.shipping_id=ord.shipping_id ";
+    var sql="SELECT (select email from users where user_id=ord.user_id) as email,(select username from  users where user_id=ord.user_id) as username,ord.order_id,ord.status,ord.date_added,ord.total FROM shippingDetails as s INNER JOIN orders as ord ON s.shipping_id=ord.shipping_id order by ord.order_id desc ";
     db.select(sql,function(result){
       if(result!='[]')
       {

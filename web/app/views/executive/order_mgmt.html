@@ -1,6 +1,6 @@
-<div class="container">
+<div class="container" id="abc">
 <br><br>
-  <div class="panel-group" style="width:800px;">
+  <div class="panel-group" style="width:1000px;">
     <div class="panel panel-info">
       <div class="panel-heading"><span class="glyphicon glyphicon-filter"></span><b> Filter Orders</b></div>
       <div class="panel-body">
@@ -78,12 +78,35 @@
           <td>{{x.date_added}}</td>
 
           <td>
-          <button type="button" class="btn btn-default btn-success btn-sm" ng-show="(x.status=='shipped')?true:false" >
+          <button type="button" class="btn btn-default btn-success btn-sm" ng-disabled="true" ng-show="(x.status=='shipped')?true:false"  >
           <i class="fa fa-check-square-o"  aria-hidden="true"></i>
           Shipped</button>
-          <button type="button" class="btn btn-default btn-warning btn-sm" ng-show="(x.status=='pending')?true:false" >
+          <!--
+          <button type="button" class="btn btn-default btn-warning btn-sm"  ng-show="(x.status=='pending')?true:false" ng-click="changeorderstatus(x.order_id,'pending')" >
           <i class="fa fa-ban" aria-hidden="true" ></i>
-           Pending</button>
+           Pending</button> -->
+
+           <button class="btn btn-default btn-warning btn-sm" data-id='{{x.order_id}}'  ng-show="(x.status=='pending')?true:false"  data-toggle="confirmation">
+             <i class="fa fa-ban" aria-hidden="true" ></i>
+              Pending</button>
+
+           <script>
+           $('[data-toggle=confirmation]').confirmation({
+           rootSelector: '[data-toggle=confirmation]',
+           // other options
+           btnOkLabel:'Confirm',
+           onConfirm: function(event, element) {
+             event.preventDefault();
+                 angular.element(document.getElementById('abc')).scope().changeorderstatus(element.attr('data-id'),'pending');
+
+           }
+           });
+           </script>
+
+
+
+
+
           </td>
 
           </table>

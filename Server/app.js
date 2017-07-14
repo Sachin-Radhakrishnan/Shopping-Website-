@@ -7,6 +7,9 @@ var bodyParser = require('body-parser');
 
 app.io= require('socket.io')();
 
+//app.use(express.static('uploads'));
+//app.use(express.static(__dirname + '/uploads'));
+
 app.use(function(req, res, next) {
 res.header("Access-Control-Allow-Origin", "*");
 res.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");

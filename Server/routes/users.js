@@ -211,5 +211,49 @@ else
 })(req, res, next);
 /*****************************************/
 });
+/***************************************************************************************************************/
+router.post('/changeorderstatus', function(req, res, next) {
 
+console.log(req.body);
+var sql="update orders set status='shipped' where order_id="+req.body.order_id+"";
+db.update(sql);
+
+var sql2="SELECT email FROM users where user_id in (select user_id from orders where order_id="+req.body.order_id+")";
+console.log(sql2);
+db.select(sql2,function(result){
+var result1 = JSON.parse(result);
+var email=result1[0].email;
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'sachin.kurup02@gmail.com',
+    pass: 'anitharaj@123'
+  }
+});
+
+var mailOptions = {
+    from: 'Do Not Reply <myawesomeemail_do_not_reply@gmail.com>',
+    to:email, //email
+    subject: 'Shipping Notification',
+    html: '<p>The order #order '+req.body.order_id+' is shipped successfully..It will be dispatched within 2 or 3 days </p>'
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error)
+  {
+    console.log(error);
+  }
+  else
+  {
+        console.log('Email sent: ' + info.response);
+
+  }
+});
+
+//sql closing
+});
+res.end();
+
+});
 module.exports = router;

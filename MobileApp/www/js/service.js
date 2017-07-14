@@ -40,7 +40,7 @@ return obj;
 
 .factory('socket', ['$rootScope', function($rootScope) {
 
-      var socket = io.connect('http://localhost:3000/');
+      var socket = io.connect('http://ec2-13-126-111-40.ap-south-1.compute.amazonaws.com:3000/');
 
 		  return {
 		    on: function(eventName, callback){
