@@ -290,7 +290,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (19,'sachin','sachin.r@gadgeon.com','sha1$78c4f438$1$87c15f09d120d111d82a349f2d0dd4cc8b6fd2af','active','user'),(32,'Geon','executive@gadgeon.com','sha1$78c4f438$1$87c15f09d120d111d82a349f2d0dd4cc8b6fd2af','active','executive'),(33,'admin','admin@gadgeon.com','sha1$78c4f438$1$87c15f09d120d111d82a349f2d0dd4cc8b6fd2af','active','super admin');
+INSERT INTO `users` VALUES (19,'sachin','sachin.r@gadgeon.com','sha1$003eb0dc$1$71a51150ced8c1e01b63a5be4d5a8f10e8eba3fb','active','user'),(32,'Geon','executive@gadgeon.com','sha1$78c4f438$1$87c15f09d120d111d82a349f2d0dd4cc8b6fd2af','active','executive'),(33,'admin','admin@gadgeon.com','sha1$78c4f438$1$87c15f09d120d111d82a349f2d0dd4cc8b6fd2af','active','super admin');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -303,4 +303,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-14 11:14:15
+-- Dump completed on 2017-07-14 11:59:52
