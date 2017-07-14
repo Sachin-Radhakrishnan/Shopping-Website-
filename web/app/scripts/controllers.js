@@ -800,7 +800,7 @@ $scope.addexecutive = function (data) {
               $scope.Form.LoginForm.$setUntouched();
               if(response.data.usertype=="executive")
                 $state.transitionTo('executive.dashboard', {}, { reload: true, inherit: true, notify: true });
-              else if(response.data.usertype=="admin")
+              else if(response.data.usertype=="super admin")
               {
                 $state.transitionTo('admin.products', {}, { reload: true, inherit: true, notify: true });
               }
