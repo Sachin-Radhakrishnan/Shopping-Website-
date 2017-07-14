@@ -121,7 +121,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (43,'19','46','1263','pending','7-12-2017'),(44,'19','47','392','pending','7-12-2017'),(45,'19','48','1263','pending','7-12-2017'),(46,'19','49','550','pending','7-13-2017'),(47,'19','50','550','pending','7-13-2017'),(48,'19','51','392','pending','7-13-2017');
+INSERT INTO `orders` VALUES (43,'19','46','1263','pending','7-12-2017'),(44,'19','47','392','shipped','7-12-2017'),(45,'19','48','1263','shipped','7-12-2017'),(46,'19','49','550','shipped','7-13-2017'),(47,'19','50','550','shipped','7-13-2017'),(48,'19','51','392','shipped','7-13-2017');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -290,7 +290,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (19,'sachin','sach@gadgeon.com','sha1$4876b616$1$ccacc2f888f06d43a45014a8c4340c9b1d826cbb','active','user'),(22,'sdfrtt','something@mailinator.com','abc@123','active','executive'),(32,'sachin Kurup','sachin.r@gadgeon.com','sha1$003eb0dc$1$71a51150ced8c1e01b63a5be4d5a8f10e8eba3fb','active','executive'),(33,'admin','admin@gmail.com','sha1$003eb0dc$1$71a51150ced8c1e01b63a5be4d5a8f10e8eba3fb','active','admin');
+INSERT INTO `users` VALUES (19,'sachin','sachin.r@gadgeon.com','sha1$ef2b3237$1$22a21735864028111328c046ce04743d20ff41ef','active','user'),(32,'Geon','executive@gadgeon.com','sha1$730d2104$1$9ada2756ee56849a4115ab92d8ebc42c6dc7bb63','active','executive'),(33,'admin','admin@gadgeon.com','sha1$003eb0dc$1$71a51150ced8c1e01b63a5be4d5a8f10e8eba3fb','active','super admin');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -303,4 +303,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-13 20:51:36
+-- Dump completed on 2017-07-14 10:09:16
