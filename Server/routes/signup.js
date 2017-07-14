@@ -40,7 +40,7 @@ db.select(sql1,function(result){
                 token.hashValue=hashValue;
                 expires.setMinutes(expires.getMinutes()+30);
                 //sending a mail to user
-                var url = "http://localhost:3000/signup/"+hashValue;
+                var url = "http://ec2-13-126-111-40.ap-south-1.compute.amazonaws.com:3000/signup/"+hashValue;
                 var transporter = nodemailer.createTransport({
                   service: 'gmail',
                   auth: {
